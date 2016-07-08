@@ -10,6 +10,8 @@
             <ui:define name="header">
                 <h:outputStylesheet library="Css/" name="index.css" />
                 <h:outputScript library="Js/" name="index.js" />
+                
+                <h:outputStylesheet library="Css/" name="modalImagem.css" />
 
                 <!-- Maps API Javascript -->
                 <!--<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>-->
@@ -35,7 +37,7 @@
                     <h:outputLink value="#">Novo Usuário</h:outputLink>
                 </h:panelGroup>
 
-                <!-- The Modal -->
+                <!-- Modal Login-->
                 <div id="ModalLogin" class="modal">
                     <!-- Modal content -->
                     <div class="modal-content">
@@ -51,17 +53,24 @@
                         </div>
                     </div>
                 </div>
-                
+
+                <!-- Modal Imagem -->
+                <div id="ModalImagem" class="modal">
+                    <span class="close-imagem">×</span>
+                    <img class="modal-content-imagem" id="img01"/>
+                        <div id="caption"></div>
+                </div>
+
                 <!--O Side Menu Right-->
                 <h:panelGroup id="MenuSideRight" layout="block" class="sidenav">
                     <h:outputLink value="javascript:void(0)" class="closebtn"  onclick="closeNavRight()">x</h:outputLink>
                     <h:outputText class="icon-bar" value="O que gostou?"/>
                     <br/>
-                    <h:graphicImage library="Img" class="img-responsive" name="416072.jpg" />
+                    <h:graphicImage library="Img" class="img-responsive" onclick="OpenModalImagem(id)" id="I1" alt="Imagem01" name="imagemA.jpg" />
                     <br/>
-                    <h:graphicImage library="Img" class="img-responsive" name="416072.jpg" />
+                    <h:graphicImage library="Img" class="img-responsive" onclick="OpenModalImagem(id)" id="I2" alt="Imagem02" name="imagemB.jpg" />
                     <br/>
-                    <h:graphicImage library="Img" class="img-responsive" name="416072.jpg" />
+                    <h:graphicImage library="Img" class="img-responsive" onclick="OpenModalImagem(id)" id="I3" alt="Imagem03" name="imagemC.jpg" />
                 </h:panelGroup>
 
                 <h:panelGroup id="map" layout="block" class="container-fluid">
