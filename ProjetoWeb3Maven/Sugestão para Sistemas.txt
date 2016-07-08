@@ -1,0 +1,10 @@
+http://dados.recife.pe.gov.br/dataset/calendario-de-vacinacao
+
+Criar um sistema que indique os postos de vacinação e 
+quais vacinas são aplicadas na unidade naquele momento
+
+
+http://dados.recife.pe.gov.br/dataset/area-urbana
+
+Faz um mapeamento das áreas urbanas onde o usuário
+irá descrever os pontos bons e ruins de cada área

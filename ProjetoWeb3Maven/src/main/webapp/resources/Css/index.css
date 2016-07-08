@@ -1,0 +1,175 @@
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+#map {
+    min-height: 100%;
+    height: 100%;
+}
+
+#footer {
+    background-color: #FF8247;
+    /*opacity: 0.7;
+    float: bottom;
+    bottom: 0;*/
+    background: -webkit-linear-gradient(90deg,#8B0000, #FF8247, rgba(255, 255, 240, 0.5)); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(90deg,#8B0000, #FF8247, rgba(255, 255, 240, 0.5)); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(90deg,#8B0000, #FF8247, rgba(255, 255, 240, 0.5)); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(90deg,#8B0000, #FF8247, rgba(255, 255, 240, 0.5)); /* Standard syntax */
+}
+
+#footer span{
+    color: white;
+}
+
+#menuIcone{
+    position: fixed;/*absolute*/
+    left: 45px;
+    top: 15px;
+    font-size: 40px;
+    color: black;
+    z-index: 50;
+}
+
+#menuIcone:hover{
+    cursor:pointer; 
+}
+
+
+/*Do SideMenu Left*/
+#MenuSideLeft {
+    height: 100%;
+    width: 0;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: #111;
+    overflow-x: hidden;
+    transition: 0.5s;
+    padding-top: 60px;
+}
+
+/*Do SideMenu Right*/
+#MenuSideRight {
+    height: 100%;
+    width: 0;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    right: 0;
+    background-color: #111;
+    overflow-x: hidden;
+    transition: 0.5s;
+    padding-top: 60px;
+}
+
+/*Do todos os SideMenu */
+.sidenav a ,.sidenav span{
+    padding: 8px 8px 8px 32px;
+    text-decoration: none;
+    font-size: 25px;
+    color: #818181;
+    display: block;
+    transition: 0.3s
+}
+
+.sidenav span:hover{
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.sidenav a:hover, .offcanvas a:focus,.sidenav span:hover{
+    color: #f1f1f1;
+}
+
+.closebtn {
+    position: absolute;
+    top: 0;
+    right: 25px;
+    font-size: 36px !important;
+    margin-left: 50px;
+}
+
+#map {
+    transition: margin-left .5s;
+    padding: 16px;
+}
+
+@media screen and (max-height: 450px) {
+    .sidenav {padding-top: 15px;}
+    .sidenav a {font-size: 18px;}
+}
+/***********************/
+
+/* The Modal (background) */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    padding-top: 100px; /* Location of the box */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content */
+.modal-content {
+    position: relative;
+    background-color: #fefefe;
+    margin: auto;
+    padding: 0;
+    border: 1px solid #888;
+    width: 80%;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+    -webkit-animation-name: animatetop;
+    -webkit-animation-duration: 0.4s;
+    animation-name: animatetop;
+    animation-duration: 0.4s
+}
+
+/* Add Animation */
+@-webkit-keyframes animatetop {
+    from {top:-300px; opacity:0} 
+    to {top:0; opacity:1}
+}
+
+@keyframes animatetop {
+    from {top:-300px; opacity:0}
+    to {top:0; opacity:1}
+}
+
+/* The Close Button */
+.close {
+    color: white;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.modal-header {
+    padding: 2px 16px;
+    background-color: #FF8247;
+    color: white;
+}
+
+.modal-body {padding: 2px 16px;}
+
+.modal-footer {
+    padding: 2px 16px;
+    background-color: #FF8247;
+    color: white;
+}
