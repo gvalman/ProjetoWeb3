@@ -4,13 +4,14 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:c="http://java.sun.com/jsp/jstl/core">
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
     <h:body>
         <ui:composition template="/view/template.xhtml">
             <ui:define name="header">
                 <h:outputStylesheet library="Css/" name="index.css" />
                 <h:outputScript library="Js/" name="index.js" />
-                
+
                 <h:outputStylesheet library="Css/" name="modalImagem.css" />
 
                 <!-- Maps API Javascript -->
@@ -30,38 +31,130 @@
                 <!--Icone para chamar o Side Menu-->
                 <h:outputText id="menuIcone" class="menu-toggle fa fa-bars"/>
 
-                <!--O Side Menu Left-->
+                <!--Side Menu Left-->
                 <h:panelGroup id="MenuSideLeft" layout="block" class="sidenav">
                     <h:outputLink value="javascript:void(0)" class="closebtn"  onclick="closeNavLeft()">x</h:outputLink>
                     <h:outputText class="icon-bar" value="Login" id="LoginIcone"/>
-                    <h:outputLink value="#">Novo Usuário</h:outputLink>
+                    <h:outputText class="icon-bar" value="Novo Usuário" id="NovoUserIcone"/>
+                    <!--<h:outputLink value="#">Novo Usuário</h:outputLink>-->
                 </h:panelGroup>
 
-                <!-- Modal Login-->
-                <div id="ModalLogin" class="modal">
-                    <!-- Modal content -->
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <span class="close">×</span>
-                            <h2>Login</h2>
-                        </div>
-                        <div class="modal-body">
-                            <p>Formulário de Login</p>
-                        </div>
-                        <div class="modal-footer">
-                            <h3>Onde Eu Moro?</h3>
-                        </div>
-                    </div>
-                </div>
+                <!--Modal Login-->
+                <h:panelGroup id="ModalLogin" layout="block" class="modal">
+                    <h:panelGroup layout="block" class="modal-content">
+                        <h:panelGroup layout="block" class="modal-header">
+                            <h:outputText class="close" value="x"/>
+                            <h:outputText styleClass="h2" value="Login"/>
+                        </h:panelGroup>
+                        <h:panelGroup layout="block" class="modal-body">
+                            <h:outputText styleClass="h2" value="Formulário de Login"/>
+                        </h:panelGroup>
+                        <h:panelGroup layout="block" class="modal-footer">
+                            <h:outputText styleClass="h3" value="Onde Eu Moro?"/>
+                        </h:panelGroup>
+                    </h:panelGroup>
+                </h:panelGroup>
 
-                <!-- Modal Imagem -->
-                <div id="ModalImagem" class="modal">
-                    <span class="close-imagem">×</span>
-                    <img class="modal-content-imagem" id="img01"/>
-                        <div id="caption"></div>
-                </div>
+                <!--Modal Novo Usuario-->
+                <h:panelGroup id="ModalNovoUser" layout="block" class="modal">
+                    <h:panelGroup layout="block" class="modal-content">
+                        <h:panelGroup layout="block" class="modal-header">
+                            <h:outputText class="close" value="x"/>
+                            <h:outputText styleClass="h2" value="Novo Usuário"/>
+                        </h:panelGroup>
+                        <h:panelGroup layout="block" class="modal-body">
 
-                <!--O Side Menu Right-->
+                            <h:form id='formNewUser' class="form-horizontal" enctype="multipart/form-data">
+
+                                <h:panelGroup layout="block" class="form-group has-feedback">
+                                    <h:panelGroup layout="block" class="col-sm-2">
+                                        <h:outputLabel value="Login" for="login" />
+                                    </h:panelGroup>
+                                    <h:panelGroup layout="block" class="col-sm-10">
+                                        <h:inputText id='login' class="form-control" pt:placeholder="Defina nome para login" value='#{usuarioMB.login}'/>
+                                    </h:panelGroup>
+                                    <h:panelGroup layout="block" class="col-sm-offset-2 col-sm-10">
+
+                                    </h:panelGroup>
+                                </h:panelGroup>
+
+                                <h:panelGroup layout="block" class="form-group has-feedback">
+                                    <h:panelGroup layout="block" class="col-sm-2">
+                                        <h:outputLabel value="Email" for="email" />
+                                    </h:panelGroup>
+                                    <h:panelGroup layout="block" class="col-sm-10">
+                                        <h:inputText id='email' class="form-control" value='#{usuarioMB.email}'/>
+                                    </h:panelGroup>
+                                    <h:panelGroup layout="block" class="col-sm-offset-2 col-sm-10">
+
+                                    </h:panelGroup>
+                                </h:panelGroup>
+
+                                <h:panelGroup layout="block" class="form-group has-feedback">
+                                    <h:panelGroup layout="block" class="col-sm-2">
+                                        <h:outputLabel value="CEP" for="cep" />
+                                    </h:panelGroup>
+                                    <h:panelGroup layout="block" class="col-sm-10">
+                                        <h:inputText id='cep' value='#{usuarioMB.cep}' class="form-control" requiredMessage="Campo deve ser preenchido."   
+                                                     converterMessage="Campo é Numérico.">
+                                            <f:convertNumber integerOnly="true"/>
+                                            <f:convertNumber pattern="#######" maxFractionDigits="0"/>   
+                                        </h:inputText>
+                                    </h:panelGroup>
+                                    <h:panelGroup layout="block" class="col-sm-offset-2 col-sm-10">
+
+                                    </h:panelGroup>
+                                </h:panelGroup>
+
+                                <h:panelGroup layout="block" class="form-group has-feedback">
+                                    <h:panelGroup layout="block" class="col-sm-2">
+                                        <h:outputLabel value="SENHA" for="senha" />
+                                    </h:panelGroup>
+                                    <h:panelGroup layout="block" class="col-sm-10">
+                                        <h:inputSecret id='senha' class="form-control" value="#{usuarioMB.senha}" />
+                                    </h:panelGroup>
+                                    <h:panelGroup layout="block" class="col-sm-offset-2 col-sm-10">
+
+                                    </h:panelGroup>
+                                </h:panelGroup>
+
+                                <h:panelGroup layout="block" class="form-group has-feedback">
+                                    <h:panelGroup layout="block" class="col-sm-2">
+                                        <h:outputLabel value="Arquivo" for="ImagemEntrada" />
+                                    </h:panelGroup>
+                                    <h:panelGroup layout="block" class="col-sm-10">
+                                        <h:inputFile id="ImagemEntrada" class="form-control" value="#{usuarioMB.foto}" pt:accept='image/*'
+                                                     required="true" label="Arquivo"/>
+                                        <h:graphicImage id='ImagemSaida' value="" height="150px"/>
+                                    </h:panelGroup>
+                                    <h:panelGroup layout="block" class="col-sm-offset-2 col-sm-10">
+
+                                    </h:panelGroup>
+                                </h:panelGroup>
+
+                                <h:panelGroup layout="block" class="form-group">
+                                    <h:panelGroup layout="block" class="col-sm-offset-2 col-sm-10">
+                                        <h:commandButton value="Cadastrar" class="btn btn-warning"
+                                                         action="#{usuarioMB.cadastrarUsuario()}" />
+                                    </h:panelGroup>        
+                                </h:panelGroup>
+                            </h:form>
+                        </h:panelGroup>
+                        <h:panelGroup layout="block" class="modal-footer">
+                            <h:outputText styleClass="h3" value="Onde Eu Moro?"/>
+                        </h:panelGroup>
+                    </h:panelGroup>
+                </h:panelGroup>
+
+                <!--Modal Imagem-->
+                <h:panelGroup id="ModalImagem" layout="block" class="modal">
+                    <h:outputText class="close-imagem" value="x"/>
+                    <h:graphicImage id='img01' class="modal-content-imagem" value=""/>
+                    <h:panelGroup id="caption" layout="block">
+                    </h:panelGroup>
+                </h:panelGroup>
+
+                <!--Side Menu Right-->
                 <h:panelGroup id="MenuSideRight" layout="block" class="sidenav">
                     <h:outputLink value="javascript:void(0)" class="closebtn"  onclick="closeNavRight()">x</h:outputLink>
                     <h:outputText class="icon-bar" value="O que gostou?"/>
@@ -73,6 +166,7 @@
                     <h:graphicImage library="Img" class="img-responsive" onclick="OpenModalImagem(id)" id="I3" alt="Imagem03" name="imagemC.jpg" />
                 </h:panelGroup>
 
+                <!--Onde será colocado o mapa-->
                 <h:panelGroup id="map" layout="block" class="container-fluid">
 
                 </h:panelGroup>
