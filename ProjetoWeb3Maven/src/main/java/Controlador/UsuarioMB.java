@@ -10,6 +10,8 @@ import java.io.Serializable;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.bean.ManagedBean;
 import javax.servlet.http.Part;
+import javax.faces.context.FacesContext;
+import javax.faces.application.FacesMessage;
 
 /**
  *
@@ -35,6 +37,7 @@ public class UsuarioMB implements Serializable {
 
     public void cadastrarUsuario() {
         DaoUser.getInstance().NovoUsuario(login, email, senha, cep, foto);
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Usuário Cadastrado com Sucesso", "Projeto"));
     }
 
     /**

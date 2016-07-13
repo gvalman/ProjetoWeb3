@@ -28,6 +28,9 @@
             </ui:define>
 
             <ui:define name="content">
+                
+                <h:messages id="ResultadoMensagem" style="color:#FF8247;margin:8px;" />
+                
                 <!--Icone para chamar o Side Menu-->
                 <h:outputText id="menuIcone" class="menu-toggle fa fa-bars"/>
 
@@ -71,7 +74,7 @@
                                         <h:outputLabel value="Login" for="login" />
                                     </h:panelGroup>
                                     <h:panelGroup layout="block" class="col-sm-10">
-                                        <h:inputText id='login' class="form-control" pt:placeholder="Defina nome para login" value='#{usuarioMB.login}'/>
+                                        <h:inputText id='login' class="form-control" pt:placeholder="Defina nome para login" value='#{usuarioMB.login}' required="true"/>
                                     </h:panelGroup>
                                     <h:panelGroup layout="block" class="col-sm-offset-2 col-sm-10">
 
@@ -83,7 +86,7 @@
                                         <h:outputLabel value="Email" for="email" />
                                     </h:panelGroup>
                                     <h:panelGroup layout="block" class="col-sm-10">
-                                        <h:inputText id='email' class="form-control" value='#{usuarioMB.email}'/>
+                                        <h:inputText id='email' class="form-control" value='#{usuarioMB.email}' required="true"/>
                                     </h:panelGroup>
                                     <h:panelGroup layout="block" class="col-sm-offset-2 col-sm-10">
 
@@ -96,7 +99,7 @@
                                     </h:panelGroup>
                                     <h:panelGroup layout="block" class="col-sm-10">
                                         <h:inputText id='cep' value='#{usuarioMB.cep}' class="form-control" requiredMessage="Campo deve ser preenchido."   
-                                                     converterMessage="Campo é Numérico.">
+                                                     converterMessage="Campo é Numérico." required="true">
                                             <f:convertNumber integerOnly="true"/>
                                             <f:convertNumber pattern="#######" maxFractionDigits="0"/>   
                                         </h:inputText>
@@ -108,10 +111,10 @@
 
                                 <h:panelGroup layout="block" class="form-group has-feedback">
                                     <h:panelGroup layout="block" class="col-sm-2">
-                                        <h:outputLabel value="SENHA" for="senha" />
+                                        <h:outputLabel value="SENHA" for="senha"/>
                                     </h:panelGroup>
                                     <h:panelGroup layout="block" class="col-sm-10">
-                                        <h:inputSecret id='senha' class="form-control" value="#{usuarioMB.senha}" />
+                                        <h:inputSecret id='senha' class="form-control" value="#{usuarioMB.senha}" required="true"/>
                                     </h:panelGroup>
                                     <h:panelGroup layout="block" class="col-sm-offset-2 col-sm-10">
 

@@ -60,13 +60,12 @@ public class UserJpaController implements Serializable {
         User usuario = new User();
         usuario.setLogin(login);
         usuario.setEmail(email);
-        usuario.setSenha(senha);
+        usuario.setSenha(Criptografia.criptografar(senha));
         usuario.setCep(cep);
         
         try {
             usuario.setFoto(toByteArray(foto.getInputStream(), (int) foto.getSize()));
         } catch (IOException ex) {
-            System.out.println("ERRRRRRRRRRRRRRRROOOOOOOOOOOOOO!!!!");
             Logger.getLogger(UserJpaController.class.getName()).log(Level.SEVERE, null, ex);
         }
         
