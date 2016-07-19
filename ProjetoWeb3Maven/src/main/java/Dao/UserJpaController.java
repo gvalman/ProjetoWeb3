@@ -32,22 +32,22 @@ import javax.servlet.http.Part;
  * @author german
  */
 public class UserJpaController implements Serializable {
-    
+
     private static UserJpaController instance;
-    
+
     protected EntityManager entityManager;
-    
+
     public static UserJpaController getInstance() {
         if (instance == null) {
             instance = new UserJpaController();
         }
         return instance;
     }
-    
+
     private UserJpaController() {
         entityManager = getEntityManager();
     }
-    
+
     private EntityManager getEntityManager() {
         EntityManagerFactory factory = Persistence.createEntityManagerFactory("pw3_ProjetoWeb3Maven_war_1.0PU");
         if (entityManager == null) {
@@ -55,24 +55,40 @@ public class UserJpaController implements Serializable {
         }
         return entityManager;
     }
-    
+
     public void NovoUsuario(String login, String email, String senha, int cep, Part foto) {
         User usuario = new User();
         usuario.setLogin(login);
-        usuario.setEmail(email);
+        usuario.setEmail(email.toLowerCase().trim());/*Passar a string para minusculo e remover espaços vazios*/
         usuario.setSenha(Criptografia.criptografar(senha));
         usuario.setCep(cep);
-        
+
         try {
             usuario.setFoto(toByteArray(foto.getInputStream(), (int) foto.getSize()));
         } catch (IOException ex) {
             Logger.getLogger(UserJpaController.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         usuario.setFotoTipo(foto.getContentType());
         create(usuario);
     }
-    
+
+    public User ChecarUser(String login, String senha) {
+        User usuario = null;
+        EntityManager em = null;
+        em = getEntityManager();
+        try {
+            usuario = (User) em.createNamedQuery("User.findByLoginBySenha")
+                    .setParameter("login", login)
+                    .setParameter("senha", Criptografia.criptografar(senha))
+                    .getResultList().get(0);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return usuario;
+    }
+
     public void create(User user) {
         if (user.getComentarioCollection() == null) {
             user.setComentarioCollection(new ArrayList<Comentario>());
@@ -104,7 +120,7 @@ public class UserJpaController implements Serializable {
             }
         }
     }
-    
+
     public void edit(User user) throws IllegalOrphanException, NonexistentEntityException, Exception {
         EntityManager em = null;
         try {
@@ -160,7 +176,7 @@ public class UserJpaController implements Serializable {
             }
         }
     }
-    
+
     public void destroy(Integer id) throws IllegalOrphanException, NonexistentEntityException {
         EntityManager em = null;
         try {
@@ -192,15 +208,15 @@ public class UserJpaController implements Serializable {
             }
         }
     }
-    
+
     public List<User> findUserEntities() {
         return findUserEntities(true, -1, -1);
     }
-    
+
     public List<User> findUserEntities(int maxResults, int firstResult) {
         return findUserEntities(false, maxResults, firstResult);
     }
-    
+
     private List<User> findUserEntities(boolean all, int maxResults, int firstResult) {
         EntityManager em = getEntityManager();
         try {
@@ -216,7 +232,7 @@ public class UserJpaController implements Serializable {
             em.close();
         }
     }
-    
+
     public User findUser(Integer id) {
         EntityManager em = getEntityManager();
         try {
@@ -225,7 +241,7 @@ public class UserJpaController implements Serializable {
             em.close();
         }
     }
-    
+
     public int getUserCount() {
         EntityManager em = getEntityManager();
         try {
@@ -238,7 +254,8 @@ public class UserJpaController implements Serializable {
             em.close();
         }
     }
-    
+
+    /*Para converter a imagem de InpuStream para byte[]*/
     private byte[] toByteArray(InputStream is, int size) throws IOException {
         ByteArrayOutputStream output = new ByteArrayOutputStream();
         try {
@@ -252,5 +269,5 @@ public class UserJpaController implements Serializable {
             output.close();
         }
     }
-    
+
 }

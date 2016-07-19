@@ -5,6 +5,7 @@
  */
 package Entidade;
 
+import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
 import java.io.Serializable;
 import java.util.Collection;
 import javax.persistence.Basic;
@@ -36,6 +37,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "User.findByIduser", query = "SELECT u FROM User u WHERE u.iduser = :iduser"),
     @NamedQuery(name = "User.findByLogin", query = "SELECT u FROM User u WHERE u.login = :login"),
     @NamedQuery(name = "User.findByEmail", query = "SELECT u FROM User u WHERE u.email = :email"),
+    @NamedQuery(name = "User.findByLoginBySenha", query = "SELECT u FROM User u WHERE u.login = :login AND u.senha = :senha"),
     @NamedQuery(name = "User.findByCep", query = "SELECT u FROM User u WHERE u.cep = :cep"),
     @NamedQuery(name = "User.findBySenha", query = "SELECT u FROM User u WHERE u.senha = :senha"),
     @NamedQuery(name = "User.findByFotoTipo", query = "SELECT u FROM User u WHERE u.fotoTipo = :fotoTipo")})
@@ -180,5 +182,8 @@ public class User implements Serializable {
     public String toString() {
         return "Entidade.User[ iduser=" + iduser + " ]";
     }
-    
+
+    public String ConsersorFoto() {
+        return "data:" + fotoTipo +";base64,"+ Base64.encode(foto);
+    }
 }

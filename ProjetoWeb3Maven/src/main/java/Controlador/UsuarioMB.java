@@ -35,9 +35,10 @@ public class UsuarioMB implements Serializable {
     public UsuarioMB() {
     }
 
-    public void cadastrarUsuario() {
+    public String cadastrarUsuario() {
         DaoUser.getInstance().NovoUsuario(login, email, senha, cep, foto);
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Usuário Cadastrado com Sucesso", "Projeto"));
+        FacesContext.getCurrentInstance().addMessage("ResultadoMensagem", new FacesMessage(FacesMessage.SEVERITY_INFO, "Usuário Cadastrado com Sucesso", "Projeto"));
+        return null;
     }
 
     /**
