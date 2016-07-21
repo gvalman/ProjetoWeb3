@@ -11,26 +11,25 @@
             <ui:define name="header">
                 <h:outputStylesheet library="Css/" name="index.css" />
                 <h:outputScript library="Js/" name="index.js" />
+                <h:outputScript library="Js/" name="bairros.js" />
 
                 <h:outputStylesheet library="Css/" name="modalImagem.css" />
 
                 <!-- Maps API Javascript -->
                 <!--<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>-->
                 <!--<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>-->
-                <script src="https://maps.googleapis.com/maps/api/js?ext=.js"></script>
+                <!--<script src="https://maps.googleapis.com/maps/api/js?ext=.js"></script>-->
                 <!--<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key="></script>-->
 
                 <!-- Incluindo bibloteca Leaflet no projeto -->
                 <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.3/leaflet.css"/>
                 <script src="http://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.3/leaflet.js"></script>
                 <link rel="stylesheet" href="https://js.arcgis.com/3.17/esri/css/esri.css"/>
-
             </ui:define>
 
             <ui:define name="content">
-
                 <h:messages id="ResultadoMensagem" style="color:#FF8247;margin:8px" />
-
+                
                 <!--Icone para chamar o Side Menu-->
                 <h:outputText id="menuIcone" class="menu-toggle fa fa-bars"/>
 
@@ -38,7 +37,8 @@
                 <h:panelGroup id="MenuSideLeft" layout="block" class="sidenav">
                     <h:outputLink value="javascript:void(0)" class="closebtn"  onclick="closeNavLeft()">x</h:outputLink>
                     <h:outputText class="icon-bar" value="Login" id="LoginIcone"/>
-                    <h:outputText class="icon-bar" value="Novo Usuário" id="NovoUserIcone"/>
+                    <h:link value="Novo Usuário" outcome="NewUser" />
+                    <!--<h:outputText class="icon-bar" value="Novo Usuário" id="NovoUserIcone"/>-->
                     <!--<h:outputLink value="#">Novo Usuário</h:outputLink>-->
                 </h:panelGroup>
 
@@ -79,96 +79,7 @@
                                     <h:panelGroup layout="block" class="col-sm-offset-2 col-sm-10">
                                         <h:commandButton value="Logar" class="btn btn-warning"
                                                          action="#{usuarioSessaoMB.ChecarUser()}" />
-                                    </h:panelGroup>        
-                                </h:panelGroup>
-                            </h:form>
-                        </h:panelGroup>
-                        <h:panelGroup layout="block" class="modal-footer">
-                            <h:outputText styleClass="h3" value="Onde Eu Moro?"/>
-                        </h:panelGroup>
-                    </h:panelGroup>
-                </h:panelGroup>
-
-                <!--Modal Novo Usuario-->
-                <h:panelGroup id="ModalNovoUser" layout="block" class="modal">
-                    <h:panelGroup layout="block" class="modal-content">
-                        <h:panelGroup layout="block" class="modal-header">
-                            <h:outputText class="close" value="x"/>
-                            <h:outputText styleClass="h2" value="Novo Usuário"/>
-                        </h:panelGroup>
-                        <h:panelGroup layout="block" class="modal-body">
-                            <h:form id='formNewUser' class="form-horizontal" enctype="multipart/form-data">
-                                <h:panelGroup layout="block" class="form-group has-feedback">
-                                    <h:panelGroup layout="block" class="col-sm-2">
-                                        <h:outputLabel value="Login" for="login" />
                                     </h:panelGroup>
-                                    <h:panelGroup layout="block" class="col-sm-10">
-                                        <h:inputText id='login' class="form-control" pt:placeholder="Defina nome para login" value='#{usuarioMB.login}' required="true"/>
-                                    </h:panelGroup>
-                                    <h:panelGroup layout="block" class="col-sm-offset-2 col-sm-10">
-
-                                    </h:panelGroup>
-                                </h:panelGroup>
-
-                                <h:panelGroup layout="block" class="form-group has-feedback">
-                                    <h:panelGroup layout="block" class="col-sm-2">
-                                        <h:outputLabel value="Email" for="email" />
-                                    </h:panelGroup>
-                                    <h:panelGroup layout="block" class="col-sm-10">
-                                        <h:inputText id='email' class="form-control" value='#{usuarioMB.email}' required="true"/>
-                                    </h:panelGroup>
-                                    <h:panelGroup layout="block" class="col-sm-offset-2 col-sm-10">
-
-                                    </h:panelGroup>
-                                </h:panelGroup>
-
-                                <h:panelGroup layout="block" class="form-group has-feedback">
-                                    <h:panelGroup layout="block" class="col-sm-2">
-                                        <h:outputLabel value="CEP" for="cep" />
-                                    </h:panelGroup>
-                                    <h:panelGroup layout="block" class="col-sm-10">
-                                        <h:inputText id='cep' value='#{usuarioMB.cep}' class="form-control" requiredMessage="Campo deve ser preenchido."   
-                                                     converterMessage="Campo é Numérico." required="true">
-                                            <f:convertNumber integerOnly="true"/>
-                                            <f:convertNumber pattern="#######" maxFractionDigits="0"/>   
-                                        </h:inputText>
-                                    </h:panelGroup>
-                                    <h:panelGroup layout="block" class="col-sm-offset-2 col-sm-10">
-
-                                    </h:panelGroup>
-                                </h:panelGroup>
-
-                                <h:panelGroup layout="block" class="form-group has-feedback">
-                                    <h:panelGroup layout="block" class="col-sm-2">
-                                        <h:outputLabel value="Senha" for="senha"/>
-                                    </h:panelGroup>
-                                    <h:panelGroup layout="block" class="col-sm-10">
-                                        <h:inputSecret id='senha' class="form-control" value="#{usuarioMB.senha}" required="true"/>
-                                    </h:panelGroup>
-                                    <h:panelGroup layout="block" class="col-sm-offset-2 col-sm-10">
-
-                                    </h:panelGroup>
-                                </h:panelGroup>
-
-                                <h:panelGroup layout="block" class="form-group has-feedback">
-                                    <h:panelGroup layout="block" class="col-sm-2">
-                                        <h:outputLabel value="Arquivo" for="ImagemEntrada" />
-                                    </h:panelGroup>
-                                    <h:panelGroup layout="block" class="col-sm-10">
-                                        <h:inputFile id="ImagemEntrada" class="form-control" value="#{usuarioMB.foto}" pt:accept='image/*'
-                                                     required="true" label="Arquivo"/>
-                                        <h:graphicImage id='ImagemSaida' value="" height="150px"/>
-                                    </h:panelGroup>
-                                    <h:panelGroup layout="block" class="col-sm-offset-2 col-sm-10">
-
-                                    </h:panelGroup>
-                                </h:panelGroup>
-
-                                <h:panelGroup layout="block" class="form-group">
-                                    <h:panelGroup layout="block" class="col-sm-offset-2 col-sm-10">
-                                        <h:commandButton value="Cadastrar" class="btn btn-warning"
-                                                         action="#{usuarioMB.cadastrarUsuario()}" />
-                                    </h:panelGroup>        
                                 </h:panelGroup>
                             </h:form>
                         </h:panelGroup>

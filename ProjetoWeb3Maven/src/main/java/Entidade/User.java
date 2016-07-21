@@ -40,7 +40,8 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "User.findByLoginBySenha", query = "SELECT u FROM User u WHERE u.login = :login AND u.senha = :senha"),
     @NamedQuery(name = "User.findByCep", query = "SELECT u FROM User u WHERE u.cep = :cep"),
     @NamedQuery(name = "User.findBySenha", query = "SELECT u FROM User u WHERE u.senha = :senha"),
-    @NamedQuery(name = "User.findByFotoTipo", query = "SELECT u FROM User u WHERE u.fotoTipo = :fotoTipo")})
+    @NamedQuery(name = "User.findByFotoTipo", query = "SELECT u FROM User u WHERE u.fotoTipo = :fotoTipo"),
+    @NamedQuery(name = "User.findByTipo", query = "SELECT u FROM User u WHERE u.tipo = :tipo")})
 public class User implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -75,6 +76,11 @@ public class User implements Serializable {
     @Size(max = 45)
     @Column(name = "fotoTipo")
     private String fotoTipo;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 45)
+    @Column(name = "tipo")
+    private String tipo;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "userIduser")
     private Collection<Comentario> comentarioCollection;
 
@@ -85,12 +91,13 @@ public class User implements Serializable {
         this.iduser = iduser;
     }
 
-    public User(Integer iduser, String login, String email, int cep, String senha) {
+    public User(Integer iduser, String login, String email, int cep, String senha, String tipo) {
         this.iduser = iduser;
         this.login = login;
         this.email = email;
         this.cep = cep;
         this.senha = senha;
+        this.tipo = tipo;
     }
 
     public Integer getIduser() {
@@ -149,6 +156,14 @@ public class User implements Serializable {
         this.fotoTipo = fotoTipo;
     }
 
+    public String getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
+    }
+
     @XmlTransient
     public Collection<Comentario> getComentarioCollection() {
         return comentarioCollection;
@@ -182,8 +197,9 @@ public class User implements Serializable {
     public String toString() {
         return "Entidade.User[ iduser=" + iduser + " ]";
     }
-
+    
     public String ConsersorFoto() {
         return "data:" + fotoTipo +";base64,"+ Base64.encode(foto);
     }
+    
 }

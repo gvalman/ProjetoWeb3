@@ -1,0 +1,116 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
+    <h:body>
+        <ui:composition template="/view/template.xhtml">
+            <ui:define name="header">
+                <h:outputScript library="Js/" name="NewUser.js" />
+            </ui:define>
+            <ui:define name="content">
+
+                <h:messages id="ResultadoMensagem" style="color:#FF8247;margin:8px" />
+
+                <!--Modal Novo Usuario-->
+                <h:panelGroup id="ModalNovoUser" layout="block">
+                    <h:panelGroup layout="block" class="modal-content">
+                        <h:panelGroup layout="block" class="modal-header">
+                            <h:outputText class="close" value="x"/>
+                            <h:outputText styleClass="h2" value="Novo Usuário"/>
+                        </h:panelGroup>
+                        <h:panelGroup layout="block" class="modal-body">
+                            <h:form id='formNewUser' class="form-horizontal" enctype="multipart/form-data">
+                                <h:panelGroup layout="block" class="form-group has-feedback">
+                                    <h:panelGroup layout="block" class="col-sm-2">
+                                        <h:outputLabel value="Login" for="login" />
+                                    </h:panelGroup>
+                                    <h:panelGroup layout="block" class="col-sm-10">
+                                        <h:inputText id='login' class="form-control" pt:placeholder="Defina nome para login" value='#{usuarioMB.login}' required="true" requiredMessage="Nome para login não definido." validatorMessage="Nome para login deve ter min=4 e max=10.">
+                                            <f:validateLength minimum="4" maximum="10"/>
+                                        </h:inputText>
+                                    </h:panelGroup>
+                                    <h:panelGroup layout="block" class="col-sm-offset-2 col-sm-10">
+                                        
+                                    </h:panelGroup>
+                                </h:panelGroup>
+
+                                <h:panelGroup layout="block" class="form-group has-feedback">
+                                    <h:panelGroup layout="block" class="col-sm-2">
+                                        <h:outputLabel value="Email" for="email" />
+                                    </h:panelGroup>
+                                    <h:panelGroup layout="block" class="col-sm-10">
+                                        <h:inputText id='email' class="form-control" value='#{usuarioMB.email}' pt:placeholder="Informe um email" required="true" requiredMessage="E-mail não fornecido." validatorMessage="E-mail Inválido.">
+                                          <f:validateRegex pattern="[\w\.-]*[a-zA-Z0-9_]@[\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]" />
+                                        </h:inputText>
+                                    </h:panelGroup>
+                                    <h:panelGroup layout="block" class="col-sm-offset-2 col-sm-10">
+                                         
+                                    </h:panelGroup>
+                                </h:panelGroup>
+
+                                <h:panelGroup layout="block" class="form-group has-feedback">
+                                    <h:panelGroup layout="block" class="col-sm-2">
+                                        <h:outputLabel value="CEP" for="cep" />
+                                    </h:panelGroup>
+                                    <h:panelGroup layout="block" class="col-sm-10">
+                                        <h:inputText id='cep' value='#{usuarioMB.cep}' pt:placeholder="Informe um CEP" class="form-control" requiredMessage="Campo deve ser preenchido."   
+                                                     converterMessage="Campo é Numérico." required="true">
+                                            <f:convertNumber integerOnly="true" pattern="#######" maxFractionDigits="0"/> 
+                                            <f:validateLength minimum="8" maximum="8"/>
+                                        </h:inputText>
+                                    </h:panelGroup>
+                                    <h:panelGroup layout="block" class="col-sm-offset-2 col-sm-10">
+
+                                    </h:panelGroup>
+                                </h:panelGroup>
+
+                                <h:panelGroup layout="block" class="form-group has-feedback">
+                                    <h:panelGroup layout="block" class="col-sm-2">
+                                        <h:outputLabel value="Senha" for="senha"/>
+                                    </h:panelGroup>
+                                    <h:panelGroup layout="block" class="col-sm-10">
+                                        <h:inputSecret id='senha' class="form-control" value="#{usuarioMB.senha}" pt:placeholder="Informe uma senha de 4 a 8 caracteres" required="true" requiredMessage="Senha não informada" validatorMessage="Senha deve ter min=4 e max=8.">
+                                           <f:validateLength minimum="4" maximum="8"/>
+                                        </h:inputSecret>
+                                    </h:panelGroup>
+                                    <h:panelGroup layout="block" class="col-sm-offset-2 col-sm-10">
+
+                                    </h:panelGroup>
+                                </h:panelGroup>
+
+                                <h:panelGroup layout="block" class="form-group has-feedback">
+                                    <h:panelGroup layout="block" class="col-sm-2">
+                                        <h:outputLabel value="Arquivo" for="ImagemEntrada" />
+                                    </h:panelGroup>
+                                    <h:panelGroup layout="block" class="col-sm-10">
+                                        <h:inputFile id="ImagemEntrada" class="form-control" value="#{usuarioMB.foto}" pt:accept='image/*'
+                                                     required="true" label="Arquivo"/>
+                                        <h:graphicImage id='ImagemSaida' value="" height="150px"/>
+                                    </h:panelGroup>
+                                    <h:panelGroup layout="block" class="col-sm-offset-2 col-sm-10">
+
+                                    </h:panelGroup>
+                                </h:panelGroup>
+
+                                <h:panelGroup layout="block" class="form-group">
+                                    <h:panelGroup layout="block" class="col-sm-offset-2 col-sm-10">
+                                        <h:commandButton value="Cadastrar" class="btn btn-warning"
+                                                         action="#{usuarioMB.cadastrarUsuario()}" />
+                                    </h:panelGroup>        
+                                </h:panelGroup>
+                            </h:form>
+                        </h:panelGroup>
+                        <h:panelGroup layout="block" class="modal-footer">
+                            <h:link value="Retornar" outcome="index" />
+                        </h:panelGroup>
+                    </h:panelGroup>
+                </h:panelGroup>
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</html>
+

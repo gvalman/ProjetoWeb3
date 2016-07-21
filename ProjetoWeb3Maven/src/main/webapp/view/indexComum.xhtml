@@ -1,0 +1,144 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
+    <h:body>
+        <ui:composition template="/view/template.xhtml">
+            <ui:define name="header">
+                <h:outputStylesheet library="Css/" name="index.css" />
+                <h:outputScript library="Js/" name="indexComum.js" />                
+                <h:outputScript library="Js/" name="bairros.js" />
+
+                <h:outputStylesheet library="Css/" name="modalImagem.css" />
+
+                <!-- Maps API Javascript -->
+                <!--<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>-->
+                <!--<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>-->
+                <!--<script src="https://maps.googleapis.com/maps/api/js?ext=.js"></script>-->
+                <!--<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key="></script>-->
+
+                <!-- Incluindo bibloteca Leaflet no projeto -->
+                <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.3/leaflet.css"/>
+                <script src="http://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.3/leaflet.js"></script>
+                <link rel="stylesheet" href="https://js.arcgis.com/3.17/esri/css/esri.css"/>
+
+            </ui:define>
+
+            <ui:define name="content">
+
+                <h:messages id="ResultadoMensagem" style="color:#FF8247;margin:8px" />
+
+                <!--Icone para chamar o Side Menu-->
+                <h:outputText id="menuIcone" class="menu-toggle fa fa-bars"/>
+
+                <!--Side Menu Left-->
+                <h:panelGroup id="MenuSideLeft" layout="block" class="sidenav">
+                    <h:outputLink value="javascript:void(0)" class="closebtn"  onclick="closeNavLeft()">x</h:outputLink>
+                    <h:form>
+                        <h:outputText styleClass="h3" value="#{UserLogado.login}"/>
+                        <h:graphicImage class="modal-content-imagem" value="#{UserLogado.ConsersorFoto()}"/>
+                        <h:commandLink action="#{usuarioSessaoMB.LogOutUser()}" value="Logout"></h:commandLink>
+                    </h:form>
+                    <!--<h:outputLink value="#">Novo Usuário</h:outputLink>-->
+                </h:panelGroup>
+
+                <!--Modal New Comentário-->
+                <h:panelGroup id="ModalComentario" layout="block" class="modal">
+                    <h:panelGroup layout="block" class="modal-content">
+                        <h:panelGroup layout="block" class="modal-header">
+                            <h:outputText class="close" value="x"/>
+                            <h:outputText styleClass="h2" value="Novo Comentário"/>
+                        </h:panelGroup>
+                        <h:panelGroup layout="block" class="modal-body">
+                            <h:form id='formNewComentario' class="form-horizontal" enctype="multipart/form-data">
+
+                                <h:panelGroup layout="block" class="form-group has-feedback">
+                                    <h:panelGroup layout="block" class="col-sm-2">
+                                        <h:outputLabel value="Titulo" for="titulo" />
+                                    </h:panelGroup>
+                                    <h:panelGroup layout="block" class="col-sm-10">
+                                        <h:inputText id='titulo' class="form-control" pt:placeholder="Defina um titulo para o comentário" value='#{comentarioMB.titulo}' required="true"/>
+                                    </h:panelGroup>
+                                    <h:panelGroup layout="block" class="col-sm-offset-2 col-sm-10">
+
+                                    </h:panelGroup>
+                                </h:panelGroup>
+
+                                <h:panelGroup layout="block" class="form-group has-feedback">
+                                    <h:panelGroup layout="block" class="col-sm-2">
+                                        <h:outputLabel value="Descrição" for="descricao"/>
+                                    </h:panelGroup>
+                                    <h:panelGroup layout="block" class="col-sm-10">
+                                        <h:inputTextarea id="descricao" pt:placeholder="Descreva o comentário" required="true" value="#{comentarioMB.descricao}" cols="20" rows="5"/>
+                                    </h:panelGroup>
+                                    <h:panelGroup layout="block" class="col-sm-offset-2 col-sm-10">
+
+                                    </h:panelGroup>
+                                </h:panelGroup>
+
+                                <h:panelGroup layout="block" class="form-group has-feedback">
+                                    <h:panelGroup layout="block" class="col-sm-2">
+                                        <h:outputLabel value="Arquivo(Foto)" for="ImagemEntradaComentario" />
+                                    </h:panelGroup>
+                                    <h:panelGroup layout="block" class="col-sm-10">
+                                        <h:inputFile id="ImagemEntradaComentario" class="form-control" value="" pt:accept='image/*'
+                                                     required="true" label="Arquivo"/>
+                                        <h:graphicImage id='ImagemSaidaComentario' value="#{comentarioMB.foto}" height="150px"/>
+                                    </h:panelGroup>
+                                    <h:panelGroup layout="block" class="col-sm-offset-2 col-sm-10">
+
+                                    </h:panelGroup>
+                                </h:panelGroup>
+
+                                <h:inputHidden value="#{comentarioMB.codBairro}" id="CodigoBairro" />
+                                <h:inputHidden value="#{comentarioMB.nomeBairro}" id="NomeBairro" />
+                                
+                                <h:panelGroup layout="block" class="form-group">
+                                    <h:panelGroup layout="block" class="col-sm-offset-2 col-sm-10">
+                                        <h:commandButton value="Cadastrar" class="btn btn-warning"
+                                                         action="#{comentarioMB.cadastrarComentario()}" />
+                                    </h:panelGroup>
+                                </h:panelGroup>
+                            </h:form>
+                        </h:panelGroup>
+                        <h:panelGroup layout="block" class="modal-footer">
+                            <h:outputText styleClass="h3" value="Onde Eu Moro?"/>
+                        </h:panelGroup>
+                    </h:panelGroup>
+                </h:panelGroup>
+
+
+                <!--Modal Imagem-->
+                <h:panelGroup id="ModalImagem" layout="block" class="modal">
+                    <h:outputText class="close-imagem" value="x"/>
+                    <h:graphicImage id='img01' class="modal-content-imagem" value=""/>
+                    <h:panelGroup id="caption" layout="block">
+                    </h:panelGroup>
+                </h:panelGroup>
+
+                <!--Side Menu Right-->
+                <h:panelGroup id="MenuSideRight" layout="block" class="sidenav">
+                    <h:outputLink value="javascript:void(0)" class="closebtn"  onclick="closeNavRight()">x</h:outputLink>
+                    <h:outputText class="icon-bar" value="O que gostou?"/>
+                    <br/>
+                    <h:graphicImage library="Img" class="img-responsive" onclick="OpenModalImagem(id)" id="I1" alt="Imagem01" name="imagemA.jpg" />
+                    <br/>
+                    <h:graphicImage library="Img" class="img-responsive" onclick="OpenModalImagem(id)" id="I2" alt="Imagem02" name="imagemB.jpg" />
+                    <br/>
+                    <h:graphicImage library="Img" class="img-responsive" onclick="OpenModalImagem(id)" id="I3" alt="Imagem03" name="imagemC.jpg" />
+                </h:panelGroup>
+
+                <!--Onde será colocado o mapa-->
+                <h:panelGroup id="map" layout="block" class="container-fluid">
+
+                </h:panelGroup>
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</html>
+
+

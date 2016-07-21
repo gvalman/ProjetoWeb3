@@ -19,6 +19,7 @@ import java.util.Collection;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 
 /**
  *
@@ -26,13 +27,41 @@ import javax.persistence.EntityManagerFactory;
  */
 public class BairroJpaController implements Serializable {
 
-    public BairroJpaController(EntityManagerFactory emf) {
-        this.emf = emf;
-    }
-    private EntityManagerFactory emf = null;
+    private static BairroJpaController instance;
 
-    public EntityManager getEntityManager() {
-        return emf.createEntityManager();
+    protected EntityManager entityManager;
+
+    public static BairroJpaController getInstance() {
+        if (instance == null) {
+            instance = new BairroJpaController();
+        }
+        return instance;
+    }
+
+    private BairroJpaController() {
+        entityManager = getEntityManager();
+    }
+
+    private EntityManager getEntityManager() {
+        EntityManagerFactory factory = Persistence.createEntityManagerFactory("pw3_ProjetoWeb3Maven_war_1.0PU");
+        if (entityManager == null) {
+            entityManager = factory.createEntityManager();
+        }
+        return entityManager;
+    }
+
+    public Bairro FindByCodigo(int codigo) {
+        Bairro bairro = null;
+        EntityManager em = null;
+        em = getEntityManager();
+        try {
+            bairro = (Bairro) em.createNamedQuery("Bairro.findByCodigo")
+                    .setParameter("codigo", codigo)
+                    .getResultList().get(0);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return bairro;
     }
 
     public void create(Bairro bairro) {
@@ -200,5 +229,5 @@ public class BairroJpaController implements Serializable {
             em.close();
         }
     }
-    
+
 }

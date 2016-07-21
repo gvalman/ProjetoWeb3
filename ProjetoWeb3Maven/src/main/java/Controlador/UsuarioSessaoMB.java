@@ -12,7 +12,6 @@ import java.io.Serializable;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 /**
@@ -43,7 +42,7 @@ public class UsuarioSessaoMB implements Serializable {
             HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
             session.setAttribute("UserLogado", usuario);
             SaidaMsn = "Bem Vindo," + usuario.getLogin();
-            Saida = "indexIn";
+            Saida = "indexComum";
         }
 
         FacesContext.getCurrentInstance().addMessage("ResultadoMensagem", new FacesMessage(FacesMessage.SEVERITY_INFO, SaidaMsn, "Projeto"));

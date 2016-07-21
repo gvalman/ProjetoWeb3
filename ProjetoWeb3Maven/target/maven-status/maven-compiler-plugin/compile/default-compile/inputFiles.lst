@@ -1,13 +1,12 @@
 C:\Users\german\Documents\GitHub\ProjetoWeb3\ProjetoWeb3Maven\src\main\java\Controlador\UsuarioSessaoMB.java
+C:\Users\german\Documents\GitHub\ProjetoWeb3\ProjetoWeb3Maven\src\main\java\Entidade\Comentario.java
 C:\Users\german\Documents\GitHub\ProjetoWeb3\ProjetoWeb3Maven\src\main\java\Controlador\UsuarioMB.java
 C:\Users\german\Documents\GitHub\ProjetoWeb3\ProjetoWeb3Maven\src\main\java\Entidade\User.java
 C:\Users\german\Documents\GitHub\ProjetoWeb3\ProjetoWeb3Maven\src\main\java\Dao\ComentarioJpaController.java
 C:\Users\german\Documents\GitHub\ProjetoWeb3\ProjetoWeb3Maven\src\main\java\Dao\BairroJpaController.java
 C:\Users\german\Documents\GitHub\ProjetoWeb3\ProjetoWeb3Maven\src\main\java\Dao\Criptografia.java
+C:\Users\german\Documents\GitHub\ProjetoWeb3\ProjetoWeb3Maven\src\main\java\Dao\UserJpaController.java
 C:\Users\german\Documents\GitHub\ProjetoWeb3\ProjetoWeb3Maven\src\main\java\Dao\exceptions\NonexistentEntityException.java
 C:\Users\german\Documents\GitHub\ProjetoWeb3\ProjetoWeb3Maven\src\main\java\Dao\exceptions\IllegalOrphanException.java
 C:\Users\german\Documents\GitHub\ProjetoWeb3\ProjetoWeb3Maven\src\main\java\Dao\exceptions\PreexistingEntityException.java
-C:\Users\german\Documents\GitHub\ProjetoWeb3\ProjetoWeb3Maven\src\main\java\Entidade\Comentario.java
-C:\Users\german\Documents\GitHub\ProjetoWeb3\ProjetoWeb3Maven\src\main\java\Dao\UserJpaController.java
-C:\Users\german\Documents\GitHub\ProjetoWeb3\ProjetoWeb3Maven\src\main\java\Filter\AutorizacaoFilter.java
 C:\Users\german\Documents\GitHub\ProjetoWeb3\ProjetoWeb3Maven\src\main\java\Entidade\Bairro.java

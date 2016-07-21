@@ -17,6 +17,8 @@ import Entidade.Comentario;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+import javax.servlet.http.Part;
 
 /**
  *
@@ -24,13 +26,31 @@ import javax.persistence.EntityManagerFactory;
  */
 public class ComentarioJpaController implements Serializable {
 
-    public ComentarioJpaController(EntityManagerFactory emf) {
-        this.emf = emf;
-    }
-    private EntityManagerFactory emf = null;
+    private static ComentarioJpaController instance;
 
-    public EntityManager getEntityManager() {
-        return emf.createEntityManager();
+    protected EntityManager entityManager;
+
+    public static ComentarioJpaController getInstance() {
+        if (instance == null) {
+            instance = new ComentarioJpaController();
+        }
+        return instance;
+    }
+
+    private ComentarioJpaController() {
+        entityManager = getEntityManager();
+    }
+
+    private EntityManager getEntityManager() {
+        EntityManagerFactory factory = Persistence.createEntityManagerFactory("pw3_ProjetoWeb3Maven_war_1.0PU");
+        if (entityManager == null) {
+            entityManager = factory.createEntityManager();
+        }
+        return entityManager;
+    }
+
+    public void cadastrarComentario(String titulo, String descricao, Part foto) {
+        /*Continuar......*/
     }
 
     public void create(Comentario comentario) {
@@ -193,5 +213,5 @@ public class ComentarioJpaController implements Serializable {
             em.close();
         }
     }
-    
+
 }

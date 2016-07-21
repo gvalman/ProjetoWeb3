@@ -26,7 +26,7 @@ public class UsuarioMB implements Serializable {
     private String login = null;
     private String email = null;
     private String senha = null;
-    private int cep;
+    private int cep = 0;
     private Part foto;
 
     /**
@@ -38,7 +38,15 @@ public class UsuarioMB implements Serializable {
     public String cadastrarUsuario() {
         DaoUser.getInstance().NovoUsuario(login, email, senha, cep, foto);
         FacesContext.getCurrentInstance().addMessage("ResultadoMensagem", new FacesMessage(FacesMessage.SEVERITY_INFO, "Usuário Cadastrado com Sucesso", "Projeto"));
+        LimparForm();
         return null;
+    }
+
+    public void LimparForm() {
+        login = null;
+        email = null;
+        senha = null;
+        cep = 0;
     }
 
     /**

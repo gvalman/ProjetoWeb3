@@ -62,6 +62,7 @@ public class UserJpaController implements Serializable {
         usuario.setEmail(email.toLowerCase().trim());/*Passar a string para minusculo e remover espaços vazios*/
         usuario.setSenha(Criptografia.criptografar(senha));
         usuario.setCep(cep);
+        usuario.setTipo("comum");
 
         try {
             usuario.setFoto(toByteArray(foto.getInputStream(), (int) foto.getSize()));
