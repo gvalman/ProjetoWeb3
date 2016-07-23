@@ -10,6 +10,7 @@
         <ui:composition template="/view/template.xhtml">
             <ui:define name="header">
                 <h:outputStylesheet library="Css/" name="index.css" />
+                <h:outputScript library="Js/" name="geral.js" /> 
                 <h:outputScript library="Js/" name="index.js" />
                 <h:outputScript library="Js/" name="bairros.js" />
 
@@ -29,7 +30,16 @@
 
             <ui:define name="content">
                 <h:messages id="ResultadoMensagem" style="color:#FF8247;margin:8px" />
-                
+
+                <!--Formulário escondido para chamar a lista de comentário-->
+                <h:form prependId="false">
+                    <h:inputHidden value="#{comentarioMB.codBairro}" id="CodigoBairroLista" />
+                    <h:inputHidden value="#{comentarioMB.tipo}" id="TipoLista" />
+                    <h:commandButton id="ChamarLista" value="TESTE" style="display: none">
+                        <f:ajax listener="#{comentarioMB.setShowLista(true)}" onevent="handleAjax" execute="CodigoBairroLista TipoLista" render="ListaComentario"/>
+                    </h:commandButton>
+                </h:form>
+
                 <!--Icone para chamar o Side Menu-->
                 <h:outputText id="menuIcone" class="menu-toggle fa fa-bars"/>
 
@@ -101,12 +111,14 @@
                 <h:panelGroup id="MenuSideRight" layout="block" class="sidenav">
                     <h:outputLink value="javascript:void(0)" class="closebtn"  onclick="closeNavRight()">x</h:outputLink>
                     <h:outputText class="icon-bar" value="O que gostou?"/>
+
+                    <h:panelGroup id="ListaComentario" layout="block" class="container-fluid">
+                        <ui:repeat var="comentario" value="#{comentarioMB.ListaComentario()}" rendered="#{comentarioMB.showLista}">
+                            <br/>
+                            <h:graphicImage rendered="#{not empty comentario}" class="img-responsive" id="imagem" onclick="OpenModalImagem(id)" value="#{comentario.fotoBase64}" longdesc="#{comentario.ConversorFoto()}" alt="#{comentario.titulo}" name="#{comentario.titulo}"/>    
+                        </ui:repeat>
+                    </h:panelGroup>
                     <br/>
-                    <h:graphicImage library="Img" class="img-responsive" onclick="OpenModalImagem(id)" id="I1" alt="Imagem01" name="imagemA.jpg" />
-                    <br/>
-                    <h:graphicImage library="Img" class="img-responsive" onclick="OpenModalImagem(id)" id="I2" alt="Imagem02" name="imagemB.jpg" />
-                    <br/>
-                    <h:graphicImage library="Img" class="img-responsive" onclick="OpenModalImagem(id)" id="I3" alt="Imagem03" name="imagemC.jpg" />
                 </h:panelGroup>
 
                 <!--Onde será colocado o mapa-->

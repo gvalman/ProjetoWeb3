@@ -33,13 +33,14 @@ public class UsuarioMB implements Serializable {
      * Creates a new instance of UsuarioMB
      */
     public UsuarioMB() {
+        DaoUser = new UserJpaController();
     }
 
     public String cadastrarUsuario() {
-        DaoUser.getInstance().NovoUsuario(login, email, senha, cep, foto);
+        DaoUser.NovoUsuario(login, email, senha, cep, foto);
         FacesContext.getCurrentInstance().addMessage("ResultadoMensagem", new FacesMessage(FacesMessage.SEVERITY_INFO, "Usuário Cadastrado com Sucesso", "Projeto"));
         LimparForm();
-        return null;
+        return "NewUser";
     }
 
     public void LimparForm() {

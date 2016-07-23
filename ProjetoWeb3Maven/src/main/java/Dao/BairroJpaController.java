@@ -38,7 +38,7 @@ public class BairroJpaController implements Serializable {
         return instance;
     }
 
-    private BairroJpaController() {
+    public BairroJpaController() {
         entityManager = getEntityManager();
     }
 
@@ -52,12 +52,15 @@ public class BairroJpaController implements Serializable {
 
     public Bairro FindByCodigo(int codigo) {
         Bairro bairro = null;
+        List<Bairro> bairros = null;
         EntityManager em = null;
         em = getEntityManager();
         try {
-            bairro = (Bairro) em.createNamedQuery("Bairro.findByCodigo")
-                    .setParameter("codigo", codigo)
-                    .getResultList().get(0);
+            bairros =  (List<Bairro>) em.createNamedQuery("Bairro.findByCodigo").setParameter("codigo", codigo).getResultList();
+            
+            if (bairros != null) {
+                bairro = bairros.get(0);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -198,7 +198,7 @@ public class User implements Serializable {
         return "Entidade.User[ iduser=" + iduser + " ]";
     }
     
-    public String ConsersorFoto() {
+    public String ConversorFoto() {
         return "data:" + fotoTipo +";base64,"+ Base64.encode(foto);
     }
     

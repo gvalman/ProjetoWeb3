@@ -28,12 +28,13 @@ public class UsuarioSessaoMB implements Serializable {
     private String senha = null;
 
     public UsuarioSessaoMB() {
+        DaoUser = new UserJpaController();
     }
 
     public String ChecarUser() {
         String Saida = null, SaidaMsn;
 
-        User usuario = DaoUser.getInstance().ChecarUser(getLogin(), getSenha());
+        User usuario = DaoUser.ChecarUser(getLogin(), getSenha());
 
         if (usuario == null) {
             SaidaMsn = "Usuário não encontrado. Tente novamente!";

@@ -19,6 +19,12 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.servlet.http.Part;
+import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 
 /**
  *
@@ -37,7 +43,7 @@ public class ComentarioJpaController implements Serializable {
         return instance;
     }
 
-    private ComentarioJpaController() {
+    public ComentarioJpaController() {
         entityManager = getEntityManager();
     }
 
@@ -49,8 +55,40 @@ public class ComentarioJpaController implements Serializable {
         return entityManager;
     }
 
-    public void cadastrarComentario(String titulo, String descricao, Part foto) {
-        /*Continuar......*/
+    public void cadastrarComentario(String titulo, String descricao, Part foto, String tipo, User usuario, Bairro bairro) {
+        Comentario comentario = new Comentario();
+        comentario.setTitulo(titulo);
+        comentario.setDescricao(descricao);
+        Date hoje = new Date();
+        comentario.setDataInicio(hoje);
+        comentario.setHoraInicio(hoje);
+        comentario.setTipo(tipo);
+        comentario.setBairroIdbairro(bairro);
+        comentario.setUserIduser(usuario);
+
+        try {
+            comentario.setFoto(toByteArray(foto.getInputStream(), (int) foto.getSize()));
+        } catch (IOException ex) {
+            Logger.getLogger(ComentarioJpaController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        comentario.setFotoTipo(foto.getContentType());
+
+        create(comentario);
+    }
+
+    public List<Comentario> FindByTipoByCodBairro(String tipo, int codigo) {
+        List<Comentario> comentarios = null;
+        EntityManager em = null;
+        em = getEntityManager();
+        try {
+            comentarios = (List<Comentario>) em.createNamedQuery("Comentario.findByTipoByBairro")
+                    .setParameter("tipo", tipo)
+                    .setParameter("CodBairro", codigo)
+                    .getResultList();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return comentarios;
     }
 
     public void create(Comentario comentario) {
@@ -211,6 +249,21 @@ public class ComentarioJpaController implements Serializable {
             return ((Long) q.getSingleResult()).intValue();
         } finally {
             em.close();
+        }
+    }
+
+    /*Para converter a imagem de InpuStream para byte[]*/
+    private byte[] toByteArray(InputStream is, int size) throws IOException {
+        ByteArrayOutputStream output = new ByteArrayOutputStream();
+        try {
+            byte[] b = new byte[size];
+            int n = 0;
+            while ((n = is.read(b)) != -1) {
+                output.write(b, 0, n);
+            }
+            return output.toByteArray();
+        } finally {
+            output.close();
         }
     }
 

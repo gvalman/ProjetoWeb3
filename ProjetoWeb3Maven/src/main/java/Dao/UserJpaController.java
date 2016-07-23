@@ -44,7 +44,7 @@ public class UserJpaController implements Serializable {
         return instance;
     }
 
-    private UserJpaController() {
+    public UserJpaController() {
         entityManager = getEntityManager();
     }
 

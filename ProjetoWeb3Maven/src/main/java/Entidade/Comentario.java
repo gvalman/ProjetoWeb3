@@ -5,6 +5,7 @@
  */
 package Entidade;
 
+import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Basic;
@@ -21,6 +22,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -40,6 +42,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Comentario.findByDataInicio", query = "SELECT c FROM Comentario c WHERE c.dataInicio = :dataInicio"),
     @NamedQuery(name = "Comentario.findByHoraInicio", query = "SELECT c FROM Comentario c WHERE c.horaInicio = :horaInicio"),
     @NamedQuery(name = "Comentario.findByTipo", query = "SELECT c FROM Comentario c WHERE c.tipo = :tipo"),
+    @NamedQuery(name = "Comentario.findByTipoByBairro", query = "SELECT c FROM Comentario c WHERE (c.tipo = :tipo AND c.bairroIdbairro.codigo = :CodBairro)"),
     @NamedQuery(name = "Comentario.findByDataFim", query = "SELECT c FROM Comentario c WHERE c.dataFim = :dataFim"),
     @NamedQuery(name = "Comentario.findByHoraFim", query = "SELECT c FROM Comentario c WHERE c.horaFim = :horaFim"),
     @NamedQuery(name = "Comentario.findByFotoTipo", query = "SELECT c FROM Comentario c WHERE c.fotoTipo = :fotoTipo")})
@@ -94,6 +97,7 @@ public class Comentario implements Serializable {
     @JoinColumn(name = "bairro_idbairro", referencedColumnName = "idbairro")
     @ManyToOne(optional = false)
     private Bairro bairroIdbairro;
+    
 
     public Comentario() {
     }
@@ -232,4 +236,7 @@ public class Comentario implements Serializable {
         return "Entidade.Comentario[ idcomentario=" + idcomentario + " ]";
     }
     
+    public String ConversorFoto() {
+        return "data:" + fotoTipo +";base64,"+ Base64.encode(foto);
+    }
 }

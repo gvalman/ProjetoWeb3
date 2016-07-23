@@ -10,6 +10,7 @@
         <ui:composition template="/view/template.xhtml">
             <ui:define name="header">
                 <h:outputStylesheet library="Css/" name="index.css" />
+                <h:outputScript library="Js/" name="geral.js" /> 
                 <h:outputScript library="Js/" name="indexComum.js" />                
                 <h:outputScript library="Js/" name="bairros.js" />
 
@@ -40,7 +41,7 @@
                     <h:outputLink value="javascript:void(0)" class="closebtn"  onclick="closeNavLeft()">x</h:outputLink>
                     <h:form>
                         <h:outputText styleClass="h3" value="#{UserLogado.login}"/>
-                        <h:graphicImage class="modal-content-imagem" value="#{UserLogado.ConsersorFoto()}"/>
+                        <h:graphicImage class="modal-content-imagem" value="#{UserLogado.ConversorFoto()}"/>
                         <h:commandLink action="#{usuarioSessaoMB.LogOutUser()}" value="Logout"></h:commandLink>
                     </h:form>
                     <!--<h:outputLink value="#">Novo Usuário</h:outputLink>-->
@@ -51,7 +52,7 @@
                     <h:panelGroup layout="block" class="modal-content">
                         <h:panelGroup layout="block" class="modal-header">
                             <h:outputText class="close" value="x"/>
-                            <h:outputText styleClass="h2" value="Novo Comentário"/>
+                            <h:outputText id="TituloModalComentario" styleClass="h2" value="Novo Comentário"/>
                         </h:panelGroup>
                         <h:panelGroup layout="block" class="modal-body">
                             <h:form id='formNewComentario' class="form-horizontal" enctype="multipart/form-data">
@@ -85,9 +86,24 @@
                                         <h:outputLabel value="Arquivo(Foto)" for="ImagemEntradaComentario" />
                                     </h:panelGroup>
                                     <h:panelGroup layout="block" class="col-sm-10">
-                                        <h:inputFile id="ImagemEntradaComentario" class="form-control" value="" pt:accept='image/*'
+                                        <h:inputFile id="ImagemEntradaComentario" class="form-control" value="#{comentarioMB.foto}" pt:accept='image/*'
                                                      required="true" label="Arquivo"/>
-                                        <h:graphicImage id='ImagemSaidaComentario' value="#{comentarioMB.foto}" height="150px"/>
+                                        <h:graphicImage id='ImagemSaidaComentario' value="" height="150px"/>
+                                    </h:panelGroup>
+                                    <h:panelGroup layout="block" class="col-sm-offset-2 col-sm-10">
+
+                                    </h:panelGroup>
+                                </h:panelGroup>
+
+                                <h:panelGroup layout="block" class="form-group has-feedback">
+                                    <h:panelGroup layout="block" class="col-sm-2">
+                                        <h:outputLabel value="Tipo" for="tipoComentario"/>
+                                    </h:panelGroup>
+                                    <h:panelGroup layout="block" class="col-sm-10">
+                                        <h:selectOneMenu id="tipoComentario" value="#{comentarioMB.tipo}">
+                                            <f:selectItem itemValue="curtiu" itemLabel="Curtiu" />
+                                            <f:selectItem itemValue="naocurtiu" itemLabel="Não Curtiu" />
+                                        </h:selectOneMenu>
                                     </h:panelGroup>
                                     <h:panelGroup layout="block" class="col-sm-offset-2 col-sm-10">
 
@@ -96,7 +112,7 @@
 
                                 <h:inputHidden value="#{comentarioMB.codBairro}" id="CodigoBairro" />
                                 <h:inputHidden value="#{comentarioMB.nomeBairro}" id="NomeBairro" />
-                                
+
                                 <h:panelGroup layout="block" class="form-group">
                                     <h:panelGroup layout="block" class="col-sm-offset-2 col-sm-10">
                                         <h:commandButton value="Cadastrar" class="btn btn-warning"
