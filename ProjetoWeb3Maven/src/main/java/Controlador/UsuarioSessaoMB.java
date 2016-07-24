@@ -9,6 +9,7 @@ import Dao.UserJpaController;
 import Entidade.User;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
+import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
@@ -32,30 +33,28 @@ public class UsuarioSessaoMB implements Serializable {
     }
 
     public String ChecarUser() {
-        String Saida = null, SaidaMsn;
+        String SaidaMsn;
 
         User usuario = DaoUser.ChecarUser(getLogin(), getSenha());
 
         if (usuario == null) {
             SaidaMsn = "Usuário não encontrado. Tente novamente!";
-            Saida = "index";
         } else {
             HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
             session.setAttribute("UserLogado", usuario);
             SaidaMsn = "Bem Vindo," + usuario.getLogin();
-            Saida = "indexComum";
         }
 
         FacesContext.getCurrentInstance().addMessage("ResultadoMensagem", new FacesMessage(FacesMessage.SEVERITY_INFO, SaidaMsn, "Projeto"));
-        return Saida;
+        return "index";
     }
-    
-    public String LogOutUser(){
+
+    public String LogOutUser() {
         HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
         session.invalidate();
         return "index";
     }
-
+    
     /**
      * @return the login
      */
@@ -83,5 +82,4 @@ public class UsuarioSessaoMB implements Serializable {
     public void setSenha(String senha) {
         this.senha = senha;
     }
-
 }

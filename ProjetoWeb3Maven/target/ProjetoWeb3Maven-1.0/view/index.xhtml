@@ -10,10 +10,8 @@
         <ui:composition template="/view/template.xhtml">
             <ui:define name="header">
                 <h:outputStylesheet library="Css/" name="index.css" />
-                <h:outputScript library="Js/" name="geral.js" /> 
-                <h:outputScript library="Js/" name="index.js" />
+                <h:outputScript library="Js/" name="geral.js" />
                 <h:outputScript library="Js/" name="bairros.js" />
-
                 <h:outputStylesheet library="Css/" name="modalImagem.css" />
 
                 <!-- Maps API Javascript -->
@@ -26,78 +24,22 @@
                 <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.3/leaflet.css"/>
                 <script src="http://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.3/leaflet.js"></script>
                 <link rel="stylesheet" href="https://js.arcgis.com/3.17/esri/css/esri.css"/>
+
+                <c:if test="#{empty UserLogado}">
+                    <h:outputScript library="Js/" name="index.js" />
+                </c:if>
+
+                <c:if test="#{not empty UserLogado}">
+                    <h:outputScript library="Js/" name="indexComum.js" /> 
+                </c:if>
             </ui:define>
 
             <ui:define name="content">
-                <h:messages id="ResultadoMensagem" style="color:#FF8247;margin:8px" />
 
-                <!--Formulário escondido para chamar a lista de comentário-->
-                <h:form prependId="false">
-                    <h:inputHidden value="#{comentarioMB.codBairro}" id="CodigoBairroLista" />
-                    <h:inputHidden value="#{comentarioMB.tipo}" id="TipoLista" />
-                    <h:commandButton id="ChamarLista" value="TESTE" style="display: none">
-                        <f:ajax listener="#{comentarioMB.setShowLista(true)}" onevent="handleAjax" execute="CodigoBairroLista TipoLista" render="ListaComentario"/>
-                    </h:commandButton>
-                </h:form>
+                <h:messages id="ResultadoMensagem" style="color:#FF8247;margin:8px"/>
 
                 <!--Icone para chamar o Side Menu-->
                 <h:outputText id="menuIcone" class="menu-toggle fa fa-bars"/>
-
-                <!--Side Menu Left-->
-                <h:panelGroup id="MenuSideLeft" layout="block" class="sidenav">
-                    <h:outputLink value="javascript:void(0)" class="closebtn"  onclick="closeNavLeft()">x</h:outputLink>
-                    <h:outputText class="icon-bar" value="Login" id="LoginIcone"/>
-                    <h:link value="Novo Usuário" outcome="NewUser" />
-                    <!--<h:outputText class="icon-bar" value="Novo Usuário" id="NovoUserIcone"/>-->
-                    <!--<h:outputLink value="#">Novo Usuário</h:outputLink>-->
-                </h:panelGroup>
-
-                <!--Modal Login-->
-                <h:panelGroup id="ModalLogin" layout="block" class="modal">
-                    <h:panelGroup layout="block" class="modal-content">
-                        <h:panelGroup layout="block" class="modal-header">
-                            <h:outputText class="close" value="x"/>
-                            <h:outputText styleClass="h2" value="Login"/>
-                        </h:panelGroup>
-                        <h:panelGroup layout="block" class="modal-body">
-                            <h:form id='formLoginUser' class="form-horizontal" enctype="multipart/form-data">
-                                <h:panelGroup layout="block" class="form-group has-feedback">
-                                    <h:panelGroup layout="block" class="col-sm-2">
-                                        <h:outputLabel value="Login" for="loginLogin" />
-                                    </h:panelGroup>
-                                    <h:panelGroup layout="block" class="col-sm-10">
-                                        <h:inputText id='loginLogin' class="form-control" pt:placeholder="Nome definido no login" value='#{usuarioSessaoMB.login}' required="true"/>
-                                    </h:panelGroup>
-                                    <h:panelGroup layout="block" class="col-sm-offset-2 col-sm-10">
-
-                                    </h:panelGroup>
-                                </h:panelGroup>
-
-                                <h:panelGroup layout="block" class="form-group has-feedback">
-                                    <h:panelGroup layout="block" class="col-sm-2">
-                                        <h:outputLabel value="Senha" for="loginSenha"/>
-                                    </h:panelGroup>
-                                    <h:panelGroup layout="block" class="col-sm-10">
-                                        <h:inputSecret id='loginSenha' class="form-control" value="#{usuarioSessaoMB.senha}" required="true"/>
-                                    </h:panelGroup>
-                                    <h:panelGroup layout="block" class="col-sm-offset-2 col-sm-10">
-
-                                    </h:panelGroup>
-                                </h:panelGroup>
-
-                                <h:panelGroup layout="block" class="form-group">
-                                    <h:panelGroup layout="block" class="col-sm-offset-2 col-sm-10">
-                                        <h:commandButton value="Logar" class="btn btn-warning"
-                                                         action="#{usuarioSessaoMB.ChecarUser()}" />
-                                    </h:panelGroup>
-                                </h:panelGroup>
-                            </h:form>
-                        </h:panelGroup>
-                        <h:panelGroup layout="block" class="modal-footer">
-                            <h:outputText styleClass="h3" value="Onde Eu Moro?"/>
-                        </h:panelGroup>
-                    </h:panelGroup>
-                </h:panelGroup>
 
                 <!--Modal Imagem-->
                 <h:panelGroup id="ModalImagem" layout="block" class="modal">
@@ -121,13 +63,192 @@
                     <br/>
                 </h:panelGroup>
 
+                <!--Formulário escondido para chamar a lista de comentário-->
+                <h:form prependId="false">
+                    <h:inputHidden value="#{comentarioMB.codBairro}" id="CodigoBairroLista" />
+                    <h:inputHidden value="#{comentarioMB.tipo}" id="TipoLista" />
+                    <h:commandButton id="ChamarLista" value="TESTE" style="display: none">
+                        <f:ajax listener="#{comentarioMB.setShowLista(true)}" onevent="handleAjax" execute="CodigoBairroLista TipoLista" render="ListaComentario"/>
+                    </h:commandButton>
+                </h:form>
+
+                <c:if test="#{empty UserLogado}">
+                    <!--Side Menu Left-->
+                    <h:panelGroup id="MenuSideLeft" layout="block" class="sidenav">
+                        <h:outputLink value="javascript:void(0)" class="closebtn"  onclick="closeNavLeft()">x</h:outputLink>
+                        <h:outputText class="icon-bar" value="Login" id="LoginIcone"/>
+                        <h:link value="Novo Usuário" outcome="NewUser" />
+                        <!--<h:outputText class="icon-bar" value="Novo Usuário" id="NovoUserIcone"/>-->
+                        <!--<h:outputLink value="#">Novo Usuário</h:outputLink>-->
+                    </h:panelGroup>
+
+                    <!--Modal Login-->
+                    <h:panelGroup id="ModalLogin" layout="block" class="modal">
+                        <h:panelGroup layout="block" class="modal-content">
+                            <h:panelGroup layout="block" class="modal-header">
+                                <h:outputText class="close" value="x"/>
+                                <h:outputText styleClass="h2" value="Login"/>
+                            </h:panelGroup>
+                            <h:panelGroup layout="block" class="modal-body">
+                                <h:form id='formLoginUser' class="form-horizontal" enctype="multipart/form-data">
+                                    <h:panelGroup layout="block" class="form-group has-feedback">
+                                        <h:panelGroup layout="block" class="col-sm-2">
+                                            <h:outputLabel value="Login" for="loginLogin" />
+                                        </h:panelGroup>
+                                        <h:panelGroup layout="block" class="col-sm-10">
+                                            <h:inputText id='loginLogin' class="form-control" pt:placeholder="Nome definido no login" value='#{usuarioSessaoMB.login}' required="true"/>
+                                        </h:panelGroup>
+                                        <h:panelGroup layout="block" class="col-sm-offset-2 col-sm-10">
+
+                                        </h:panelGroup>
+                                    </h:panelGroup>
+
+                                    <h:panelGroup layout="block" class="form-group has-feedback">
+                                        <h:panelGroup layout="block" class="col-sm-2">
+                                            <h:outputLabel value="Senha" for="loginSenha"/>
+                                        </h:panelGroup>
+                                        <h:panelGroup layout="block" class="col-sm-10">
+                                            <h:inputSecret id='loginSenha' class="form-control" value="#{usuarioSessaoMB.senha}" required="true"/>
+                                        </h:panelGroup>
+                                        <h:panelGroup layout="block" class="col-sm-offset-2 col-sm-10">
+
+                                        </h:panelGroup>
+                                    </h:panelGroup>
+
+                                    <h:panelGroup layout="block" class="form-group">
+                                        <h:panelGroup layout="block" class="col-sm-offset-2 col-sm-10">
+                                            <h:commandButton value="Logar" class="btn btn-warning"
+                                                             action="#{usuarioSessaoMB.ChecarUser()}" />
+                                        </h:panelGroup>
+                                    </h:panelGroup>
+                                </h:form>
+                            </h:panelGroup>
+                            <h:panelGroup layout="block" class="modal-footer">
+                                <h:outputText styleClass="h3" value="Onde Eu Moro?"/>
+                            </h:panelGroup>
+                        </h:panelGroup>
+                    </h:panelGroup>
+                </c:if>
+
+                <c:if test="#{not empty UserLogado}">
+                    <c:if test="#{UserLogado.tipo == 'comum'}">
+                        
+                        <!--Side Menu Left-->
+                        <h:panelGroup id="MenuSideLeft" layout="block" class="sidenav">
+                            <h:outputLink value="javascript:void(0)" class="closebtn"  onclick="closeNavLeft()">x</h:outputLink>
+                            <h:form>
+                                <h:outputText styleClass="h3" value="#{UserLogado.login}"/>
+                                <h:outputText styleClass="h4" value="#{UserLogado.tipo}"/>
+                                <h:graphicImage class="modal-content-imagem" value="#{UserLogado.ConversorFoto()}"/>
+                                <h:commandLink action="#{usuarioSessaoMB.LogOutUser()}" value="Logout"></h:commandLink>
+                            </h:form>
+                            <!--<h:outputLink value="#">Novo Usuário</h:outputLink>-->
+                        </h:panelGroup>
+
+                        <!--Modal New Comentário-->
+                        <h:panelGroup id="ModalComentario" layout="block" class="modal">
+                            <h:panelGroup layout="block" class="modal-content">
+                                <h:panelGroup layout="block" class="modal-header">
+                                    <h:outputText class="close" value="x"/>
+                                    <h:outputText id="TituloModalComentario" styleClass="h2" value="Novo Comentário"/>
+                                </h:panelGroup>
+                                <h:panelGroup layout="block" class="modal-body">
+                                    <h:form id='formNewComentario' class="form-horizontal" enctype="multipart/form-data">
+
+                                        <h:panelGroup layout="block" class="form-group has-feedback">
+                                            <h:panelGroup layout="block" class="col-sm-2">
+                                                <h:outputLabel value="Titulo" for="titulo" />
+                                            </h:panelGroup>
+                                            <h:panelGroup layout="block" class="col-sm-10">
+                                                <h:inputText id='titulo' class="form-control" pt:placeholder="Defina um titulo para o comentário" value='#{comentarioMB.titulo}' required="true"/>
+                                            </h:panelGroup>
+                                            <h:panelGroup layout="block" class="col-sm-offset-2 col-sm-10">
+
+                                            </h:panelGroup>
+                                        </h:panelGroup>
+
+                                        <h:panelGroup layout="block" class="form-group has-feedback">
+                                            <h:panelGroup layout="block" class="col-sm-2">
+                                                <h:outputLabel value="Descrição" for="descricao"/>
+                                            </h:panelGroup>
+                                            <h:panelGroup layout="block" class="col-sm-10">
+                                                <h:inputTextarea id="descricao" pt:placeholder="Descreva o comentário" required="true" value="#{comentarioMB.descricao}" cols="20" rows="5"/>
+                                            </h:panelGroup>
+                                            <h:panelGroup layout="block" class="col-sm-offset-2 col-sm-10">
+
+                                            </h:panelGroup>
+                                        </h:panelGroup>
+
+                                        <h:panelGroup layout="block" class="form-group has-feedback">
+                                            <h:panelGroup layout="block" class="col-sm-2">
+                                                <h:outputLabel value="Arquivo(Foto)" for="ImagemEntradaComentario" />
+                                            </h:panelGroup>
+                                            <h:panelGroup layout="block" class="col-sm-10">
+                                                <h:inputFile id="ImagemEntradaComentario" class="form-control" value="#{comentarioMB.foto}" pt:accept='image/*'
+                                                             required="true" label="Arquivo"/>
+                                                <h:graphicImage id='ImagemSaidaComentario' value="" height="150px"/>
+                                            </h:panelGroup>
+                                            <h:panelGroup layout="block" class="col-sm-offset-2 col-sm-10">
+
+                                            </h:panelGroup>
+                                        </h:panelGroup>
+
+                                        <h:panelGroup layout="block" class="form-group has-feedback">
+                                            <h:panelGroup layout="block" class="col-sm-2">
+                                                <h:outputLabel value="Tipo" for="tipoComentario"/>
+                                            </h:panelGroup>
+                                            <h:panelGroup layout="block" class="col-sm-10">
+                                                <h:selectOneMenu id="tipoComentario" value="#{comentarioMB.tipo}">
+                                                    <f:selectItem itemValue="curtiu" itemLabel="Curtiu" />
+                                                    <f:selectItem itemValue="naocurtiu" itemLabel="Não Curtiu" />
+                                                </h:selectOneMenu>
+                                            </h:panelGroup>
+                                            <h:panelGroup layout="block" class="col-sm-offset-2 col-sm-10">
+
+                                            </h:panelGroup>
+                                        </h:panelGroup>
+
+                                        <h:inputHidden value="#{comentarioMB.codBairro}" id="CodigoBairro" />
+                                        <h:inputHidden value="#{comentarioMB.nomeBairro}" id="NomeBairro" />
+
+                                        <h:panelGroup layout="block" class="form-group">
+                                            <h:panelGroup layout="block" class="col-sm-offset-2 col-sm-10">
+                                                <h:commandButton value="Cadastrar" class="btn btn-warning"
+                                                                 action="#{comentarioMB.cadastrarComentario()}" />
+                                            </h:panelGroup>
+                                        </h:panelGroup>
+                                    </h:form>
+                                </h:panelGroup>
+                                <h:panelGroup layout="block" class="modal-footer">
+                                    <h:outputText styleClass="h3" value="Onde Eu Moro?"/>
+                                </h:panelGroup>
+                            </h:panelGroup>
+                        </h:panelGroup>
+                    </c:if>
+                    
+                    <c:if test="#{UserLogado.tipo == 'administrador'}">
+                        <!--Side Menu Left-->
+                        <h:panelGroup id="MenuSideLeft" layout="block" class="sidenav">
+                            <h:outputLink value="javascript:void(0)" class="closebtn"  onclick="closeNavLeft()">x</h:outputLink>
+                            <h:form>
+                                <h:outputText styleClass="h3" value="#{UserLogado.login}"/>
+                                <h:outputText styleClass="h4" value="#{UserLogado.tipo}"/>
+                                <h:graphicImage class="modal-content-imagem" value="#{UserLogado.ConversorFoto()}"/>
+                                <h:link value="Listar Usuários" outcome="ListaUsers" />
+                                <h:commandLink action="#{usuarioSessaoMB.LogOutUser()}" value="Logout"></h:commandLink>
+                            </h:form>
+                            <!--<h:outputLink value="#">Novo Usuário</h:outputLink>-->
+                        </h:panelGroup>
+                    </c:if>
+                </c:if>
+
                 <!--Onde será colocado o mapa-->
                 <h:panelGroup id="map" layout="block" class="container-fluid">
 
                 </h:panelGroup>
+
             </ui:define>
         </ui:composition>
     </h:body>
 </html>
-
 

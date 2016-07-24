@@ -89,6 +89,21 @@ public class UserJpaController implements Serializable {
 
         return usuario;
     }
+    
+    public List<User> ListaAllUser(int id){
+        List<User> usuarios = null;
+        EntityManager em = null;
+        em = getEntityManager();
+        
+        try {
+            usuarios = (List<User>) em.createNamedQuery("User.findAllExceptAdm")
+                    .setParameter("iduser", id)
+                    .getResultList();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return usuarios;
+    }
 
     public void create(User user) {
         if (user.getComentarioCollection() == null) {

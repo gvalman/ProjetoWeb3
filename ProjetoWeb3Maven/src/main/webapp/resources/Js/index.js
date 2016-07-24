@@ -70,7 +70,7 @@ function IniciarMapa() {
         style: myStyle,
         onEachFeature: function (feature, layer) {
 
-            layer.bindPopup("<h3>" + feature.properties.bairro_nome + "</h3><br/><i class='fa fa-thumbs-o-up' onclick='openNavRight();ChamarBotao(" + feature.properties.bairro_codigo + ",&#96;" + feature.properties.bairro_nome + "&#96;,&#96;curtiu&#96;)' style='font-size:72px;color:green;' title='O que gostou?'></i><i class='fa fa-thumbs-o-down' style='font-size:72px;color:red;' title='O que não gostou?'></i>");
+            layer.bindPopup("<h3>" + feature.properties.bairro_nome + "</h3><br/><i class='fa fa-thumbs-o-up' onclick='openNavRight();ChamarBotao(" + feature.properties.bairro_codigo + ",&#96;" + feature.properties.bairro_nome + "&#96;,&#96;curtiu&#96;)' style='font-size:72px;color:green;' title='O que gostou?'></i><i class='fa fa-thumbs-o-down' onclick='openNavRight();ChamarBotao(" + feature.properties.bairro_codigo + ",&#96;" + feature.properties.bairro_nome + "&#96;,&#96;naocurtiu&#96;)' style='font-size:72px;color:red;' title='O que não gostou?'></i>");
 
             layer.on('mouseover',
                     function () {

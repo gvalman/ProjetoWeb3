@@ -36,6 +36,7 @@ public class ComentarioMB implements Serializable {
     private Part foto;
     private int CodBairro;
     private boolean ShowLista = false;
+
     /**
      * Creates a new instance of ComentarioMB
      */
@@ -65,10 +66,10 @@ public class ComentarioMB implements Serializable {
     }
 
     public List<Comentario> ListaComentario() {
-        System.out.println(CodBairro + " " + tipo);
-        
+        //System.out.println(CodBairro + " " + tipo);
+
         List<Comentario> Lista = DaoComentario.FindByTipoByCodBairro(tipo, CodBairro);
-        
+
         return Lista;
     }
 

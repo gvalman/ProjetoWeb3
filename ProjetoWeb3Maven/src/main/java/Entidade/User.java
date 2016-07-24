@@ -38,6 +38,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "User.findByLogin", query = "SELECT u FROM User u WHERE u.login = :login"),
     @NamedQuery(name = "User.findByEmail", query = "SELECT u FROM User u WHERE u.email = :email"),
     @NamedQuery(name = "User.findByLoginBySenha", query = "SELECT u FROM User u WHERE u.login = :login AND u.senha = :senha"),
+    @NamedQuery(name = "User.findAllExceptAdm", query = "SELECT u FROM User u WHERE u.iduser NOT IN (:iduser)"),
     @NamedQuery(name = "User.findByCep", query = "SELECT u FROM User u WHERE u.cep = :cep"),
     @NamedQuery(name = "User.findBySenha", query = "SELECT u FROM User u WHERE u.senha = :senha"),
     @NamedQuery(name = "User.findByFotoTipo", query = "SELECT u FROM User u WHERE u.fotoTipo = :fotoTipo"),

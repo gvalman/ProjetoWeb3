@@ -1,0 +1,24 @@
+.tituloTabela{
+    font-size: 0.95cm;
+    font-style: italic;    
+}
+
+#ListaUser td{
+    align-content: center;
+    align-items: center;
+}
+
+.tabelaCabecalho{
+    border-radius: 10px;
+    text-align:  center;
+    font-style: italic;
+    color: snow;
+    background: coral;
+}
+
+.tabelaRodape{
+    border-radius: 10px;
+    text-align: center;
+    color: snow;
+    background:  coral;
+}
