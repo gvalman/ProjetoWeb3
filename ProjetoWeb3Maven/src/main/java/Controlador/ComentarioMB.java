@@ -7,6 +7,7 @@ package Controlador;
 
 import Dao.BairroJpaController;
 import Dao.ComentarioJpaController;
+import Dao.exceptions.NonexistentEntityException;
 import Entidade.Bairro;
 import Entidade.Comentario;
 import Entidade.User;
@@ -19,7 +20,11 @@ import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 import java.util.List;
-import javax.faces.bean.ViewScoped;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.ManagedProperty;
+import javax.faces.event.AjaxBehaviorEvent;
 
 /**
  *
@@ -71,6 +76,19 @@ public class ComentarioMB implements Serializable {
         List<Comentario> Lista = DaoComentario.FindByTipoByCodBairro(tipo, CodBairro);
 
         return Lista;
+    }
+
+    public void ExcluirComentario() {
+        System.out.println("EXCLUINDO COMENTÁRIO");
+
+        /*
+        try {
+            DaoComentario.destroy(comentarioId);
+            FacesContext.getCurrentInstance().addMessage("ResultadoMensagem", new FacesMessage(FacesMessage.SEVERITY_INFO, "Comentário excluido com SUCESSO", "Projeto"));
+        } catch (NonexistentEntityException ex) {
+            FacesContext.getCurrentInstance().addMessage("ResultadoMensagem", new FacesMessage(FacesMessage.SEVERITY_INFO, "Comentário não pode ser excluido tente novamente", "Projeto"));
+            Logger.getLogger(ComentarioMB.class.getName()).log(Level.SEVERE, null, ex);
+        }*/
     }
 
     /**

@@ -140,6 +140,7 @@
                                 <h:outputText styleClass="h3" value="#{UserLogado.login}"/>
                                 <h:outputText styleClass="h4" value="#{UserLogado.tipo}"/>
                                 <h:graphicImage class="modal-content-imagem" value="#{UserLogado.ConversorFoto()}"/>
+                                <h:link value="Listar Comentários" outcome="ListaComentarios" />
                                 <h:commandLink action="#{usuarioSessaoMB.LogOutUser()}" value="Logout"></h:commandLink>
                             </h:form>
                             <!--<h:outputLink value="#">Novo Usuário</h:outputLink>-->

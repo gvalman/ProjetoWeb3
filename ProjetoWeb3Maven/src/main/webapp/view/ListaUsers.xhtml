@@ -10,11 +10,13 @@
         <ui:composition template="/view/template.xhtml">
             <ui:define name="header">
                 <h:outputStylesheet library="Css/" name="listaUser.css" />
+                <h:outputScript library="Js/" name="listaUser.js" />
             </ui:define>
             <ui:define name="content">
                 <h:messages id="ResultadoMensagem" style="color:#FF8247;margin:8px"/>
                 <h:link value="Retornar" outcome="index" />
 
+                <!--Tabela que lista todos os usuários para o administrador-->
                 <h:dataTable id="ListaUser" value="#{usuarioViewMB.ListarUser()}"
                              var="usuario"
                              styleClass="table table-hover"
@@ -41,14 +43,75 @@
                             #{usuario.cep}
                     </h:column>
                     <h:column>
-                        <h:form>
+                        <h:form prependId="false">
                             <h:commandButton value="Excluir" 
                                              class="btn btn-warning">
                                 <f:ajax listener="#{usuarioMB.ExcluirUser(usuario)}" render="ListaUser ResultadoMensagem"/>
-                            </h:commandButton>  
+                            </h:commandButton>
+                            <br/>
+                            <h:commandButton value="Curtiu (#{usuario.ContComentario('curtiu')})"
+                                             class="btn btn-warning">
+                                <f:ajax listener="#{usuarioViewMB.UpdateListaComentario(usuario,'curtiu')}" onevent="handleAjax" render="ListaComentario"/>
+                            </h:commandButton>
+                            <br/>
+                            <h:commandButton value="Não Curtiu (#{usuario.ContComentario('naocurtiu')})" 
+                                             class="btn btn-warning">
+                                <f:ajax listener="#{usuarioViewMB.UpdateListaComentario(usuario,'naocurtiu')}" onevent="handleAjax" render="ListaComentario"/>
+                            </h:commandButton>
                         </h:form>
                     </h:column>
                 </h:dataTable>
+
+                <!--Modal para Lista de Comentário de acordo com o tipo-->
+                <h:panelGroup id="ModalListaComentario" layout="block" class="modal">
+                    <h:outputText class="close-imagem" value="x"/>
+                    <h:graphicImage id='imagemUser' class="modal-content-imagem" value=""/>
+                    <h:dataTable id="ListaComentario" value="#{usuarioViewMB.listaComentario}"
+                                 var="comentario"
+                                 styleClass="tabelaComentarios"
+                                 captionClass="tituloTabela"
+                                 headerClass="tabelaCabecalho"
+                                 footerClass="tabelaRodape">
+                        <f:facet name="caption">Lista de Comentários</f:facet>
+
+                        <f:facet name="footer">Total cadastrados: #{usuarioViewMB.listaComentario.size()}</f:facet>
+                        <h:column>
+                            <f:facet name="header">FOTO</f:facet>
+                            <h:graphicImage height="100px" class="modal-content-imagem" value="#{comentario.ConversorFoto()}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">TITULO</f:facet>
+                                #{comentario.titulo}
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">DESCRIÇÃO</f:facet>
+                                #{comentario.descricao}
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">Bairro</f:facet>
+                                #{comentario.bairroIdbairro.nome}
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">Data e Hora do resgistro</f:facet>
+                            <h:outputText styleClass="h4" value="#{comentario.dataInicio}">
+                                <f:convertDateTime pattern="dd/MM/yyyy" />
+                            </h:outputText>
+                            <br/>
+                            <h:outputText styleClass="h4" value="#{comentario.horaInicio}">
+                                <f:convertDateTime pattern="HH:mm:ss" />
+                            </h:outputText>
+                        </h:column>
+                        <h:column>
+                            <h:form prependId="false">
+                                <h:commandButton value="Excluir" 
+                                                 class="btn btn-warning"
+                                                 action="ListaUsers"
+                                                 onclick="#{comentarioMB.ExcluirComentario()}">
+                                </h:commandButton>
+                            </h:form>
+                        </h:column>
+                    </h:dataTable>
+                </h:panelGroup>
             </ui:define>
         </ui:composition>
     </h:body>

@@ -27,8 +27,8 @@ function OpenModalImagem(id) {
 }
 
 function openNavLeft() {
-    document.getElementById("MenuSideLeft").style.width = "250px";
-    document.getElementById("map").style.marginLeft = "250px";
+    document.getElementById("MenuSideLeft").style.width = "200px";
+    document.getElementById("map").style.marginLeft = "200px";
 }
 
 function closeNavLeft() {

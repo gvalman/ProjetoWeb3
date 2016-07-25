@@ -6,6 +6,7 @@
 package Controlador;
 
 import Dao.UserJpaController;
+import Entidade.Comentario;
 import Entidade.User;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
@@ -26,6 +27,7 @@ public class UsuarioViewMB {
     UserJpaController DaoUser;
 
     private List<User> listaUser = null;
+    private List<Comentario> listaComentario = null;
 
     /**
      * Creates a new instance of UsuarioViewMB
@@ -48,6 +50,10 @@ public class UsuarioViewMB {
         return listaUser;
     }
 
+    public void UpdateListaComentario(User usuario, String tipo) {
+        setListaComentario(usuario.ListaComentarioByTipo(tipo));
+    }
+
     /**
      * @return the listaUser
      */
@@ -62,4 +68,17 @@ public class UsuarioViewMB {
         this.listaUser = listaUser;
     }
 
+    /**
+     * @return the listaComentario
+     */
+    public List<Comentario> getListaComentario() {
+        return listaComentario;
+    }
+
+    /**
+     * @param listaComentario the listaComentario to set
+     */
+    public void setListaComentario(List<Comentario> listaComentario) {
+        this.listaComentario = listaComentario;
+    }
 }

@@ -7,7 +7,10 @@ package Entidade;
 
 import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
 import java.io.Serializable;
+import java.util.AbstractCollection;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -198,9 +201,28 @@ public class User implements Serializable {
     public String toString() {
         return "Entidade.User[ iduser=" + iduser + " ]";
     }
-    
+
     public String ConversorFoto() {
-        return "data:" + fotoTipo +";base64,"+ Base64.encode(foto);
+        return "data:" + fotoTipo + ";base64," + Base64.encode(foto);
     }
-    
+
+    public int ContComentario(String tipo) {
+        int cont = 0;
+        for (Comentario i : comentarioCollection) {
+            if (tipo.equals(i.getTipo())) {
+                cont += 1;
+            }
+        }
+        return cont;
+    }
+
+    public List<Comentario> ListaComentarioByTipo(String tipo) {
+        List<Comentario> lista = new ArrayList<>();
+        for (Comentario i : comentarioCollection) {
+            if (tipo.equals(i.getTipo())) {
+                lista.add(i);
+            }
+        }
+        return lista;
+    }
 }
