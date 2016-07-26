@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Dao;
 
 import Dao.exceptions.IllegalOrphanException;
@@ -21,10 +16,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
-/**
- *
- * @author german
- */
 public class BairroJpaController implements Serializable {
 
     private static BairroJpaController instance;

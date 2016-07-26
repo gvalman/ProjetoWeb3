@@ -85,7 +85,7 @@
                     <!--Side Menu Left-->
                     <h:panelGroup id="MenuSideLeft" layout="block" class="sidenav">
                         <h:outputLink value="javascript:void(0)" class="closebtn"  onclick="closeNavLeft()">x</h:outputLink>
-                        <h:outputText class="icon-bar" value="Login" id="LoginIcone"/>
+                        <h:outputText class="icon-bar" value="#{mensagem.entrar}" id="LoginIcone"/>
                         <h:link value="#{mensagem.novoUser}" outcome="NewUser" />
                         <!--<h:outputText class="icon-bar" value="Novo Usuário" id="NovoUserIcone"/>-->
                         <!--<h:outputLink value="#">Novo Usuário</h:outputLink>-->
@@ -96,7 +96,7 @@
                         <h:panelGroup layout="block" class="modal-content">
                             <h:panelGroup layout="block" class="modal-header">
                                 <h:outputText class="close" value="x"/>
-                                <h:outputText styleClass="h2" value="Login"/>
+                                <h:outputText styleClass="h2" value="#{mensagem.entrar}"/>
                             </h:panelGroup>
                             <h:panelGroup layout="block" class="modal-body">
                                 <h:form id='formLoginUser' class="form-horizontal" enctype="multipart/form-data">
@@ -149,11 +149,10 @@
                                 <h:outputText styleClass="h3" value="#{UserLogado.login}"/>
                                 <h:outputText styleClass="h4" value="#{UserLogado.tipo}"/>
                                 <h:graphicImage class="modal-content-imagem" value="#{UserLogado.ConversorFoto()}"/>
-                                <h:link value="Listar Comentários" outcome="ListaComentarios" />
-                                <h:link value="Editar Cadastro" outcome="NewUser" />
-                                <h:commandLink action="#{usuarioSessaoMB.LogOutUser()}" value="Logout"></h:commandLink>
+                                <h:link value="#{mensagem.listaComentarios}" outcome="ListaComentarios" />
+                                <h:link value="#{mensagem.editarCadastros}" outcome="NewUser" />
+                                <h:commandLink action="#{usuarioSessaoMB.LogOutUser()}" value="#{mensagem.sair}"></h:commandLink>
                             </h:form>
-                            <!--<h:outputLink value="#">Novo Usuário</h:outputLink>-->
                         </h:panelGroup>
 
                         <!--Modal New Comentário-->
@@ -253,9 +252,9 @@
                                 <h:outputText styleClass="h3" value="#{UserLogado.login}"/>
                                 <h:outputText styleClass="h4" value="#{UserLogado.tipo}"/>
                                 <h:graphicImage class="modal-content-imagem" value="#{UserLogado.ConversorFoto()}"/>
-                                <h:link value="Listar Usuários" outcome="ListaUsers" />
-                                <h:link value="Listar Comentários" outcome="ListaComentarios" />
-                                <h:commandLink action="#{usuarioSessaoMB.LogOutUser()}" value="Logout"></h:commandLink>
+                                <h:link value="#{mensagem.listaUser}" outcome="ListaUsers" />
+                                <h:link value="#{mensagem.listaComentarios}" outcome="ListaComentarios" />
+                                <h:commandLink action="#{usuarioSessaoMB.LogOutUser()}" value="#{mensagem.sair}"></h:commandLink>
                             </h:form>
                             <!--<h:outputLink value="#">Novo Usuário</h:outputLink>-->
                         </h:panelGroup>

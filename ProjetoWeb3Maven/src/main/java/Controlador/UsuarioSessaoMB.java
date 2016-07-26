@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Controlador;
 
 import Dao.UserJpaController;
@@ -17,7 +12,7 @@ import javax.servlet.http.HttpSession;
 
 /**
  *
- * @author german Controla o LogIn e LogOut do Usuario
+ * Controla o LogIn e LogOut do Usuario
  */
 @ManagedBean(name = "usuarioSessaoMB")
 @SessionScoped

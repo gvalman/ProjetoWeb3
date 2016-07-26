@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Controlador;
 
 import Dao.ComentarioJpaController;
@@ -16,10 +11,6 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
 
-/**
- *
- * @author german
- */
 @ManagedBean(name = "usuarioViewMB")
 @ViewScoped
 public class UsuarioViewMB implements Serializable{
