@@ -42,7 +42,8 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Comentario.findByDataInicio", query = "SELECT c FROM Comentario c WHERE c.dataInicio = :dataInicio"),
     @NamedQuery(name = "Comentario.findByHoraInicio", query = "SELECT c FROM Comentario c WHERE c.horaInicio = :horaInicio"),
     @NamedQuery(name = "Comentario.findByTipo", query = "SELECT c FROM Comentario c WHERE c.tipo = :tipo"),
-    @NamedQuery(name = "Comentario.findByTipoByBairro", query = "SELECT c FROM Comentario c WHERE (c.tipo = :tipo AND c.bairroIdbairro.codigo = :CodBairro)"),
+    @NamedQuery(name = "Comentario.findByTipoByBairro", query = "SELECT c FROM Comentario c WHERE (c.tipo = :tipo AND c.bairroIdbairro.codigo = :CodBairro AND c.dataFim IS NULL)"),
+    @NamedQuery(name = "Comentario.findAllByUser", query = "SELECT c FROM Comentario c WHERE c.userIduser.iduser = :iduser"),
     @NamedQuery(name = "Comentario.findByDataFim", query = "SELECT c FROM Comentario c WHERE c.dataFim = :dataFim"),
     @NamedQuery(name = "Comentario.findByHoraFim", query = "SELECT c FROM Comentario c WHERE c.horaFim = :horaFim"),
     @NamedQuery(name = "Comentario.findByFotoTipo", query = "SELECT c FROM Comentario c WHERE c.fotoTipo = :fotoTipo")})

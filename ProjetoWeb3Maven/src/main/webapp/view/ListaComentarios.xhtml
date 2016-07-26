@@ -9,52 +9,79 @@
     <h:body>
         <ui:composition template="/view/template.xhtml">
             <ui:define name="header">
-                <h:outputStylesheet library="Css/" name="listaUser.css" />
+                <h:outputStylesheet library="Css/" name="lista.css" />
             </ui:define>
             <ui:define name="content">
                 <h:messages id="ResultadoMensagem" style="color:#FF8247;margin:8px"/>
                 <h:link value="Retornar" outcome="index" />
 
-                <h:dataTable id="ListaComentario" value="#{usuarioViewMB.ListarUser()}"
-                             var="usuario"
+                <h:dataTable id="ListaComentario" 
+                             value="#{UserLogado.tipo eq 'comum'? usuarioViewMB.ListarAllComentarioByUser() : usuarioViewMB.ListarAllComentario()}"
+                             var="comentario"
                              styleClass="table table-hover"
                              captionClass="tituloTabela"
                              headerClass="tabelaCabecalho"
                              footerClass="tabelaRodape">
-                    <f:facet name="caption">Lista dos Comentários de #{UserLogado.login}</f:facet>
+                    <f:facet name="caption">Lista dos Comentários</f:facet>
 
-                    <f:facet name="footer">Total cadastrados: #{usuarioViewMB.listaUser.size()}</f:facet>
+                    <f:facet name="footer">Total cadastrados: #{usuarioViewMB.listaComentario.size()}</f:facet>
                     <h:column>
                         <f:facet name="header">FOTO</f:facet>
-                        <h:graphicImage height="100px" class="modal-content-imagem" value="#{usuario.ConversorFoto()}"/>
+                        <h:graphicImage height="100px" class="modal-content-imagem" value="#{comentario.ConversorFoto()}"/>
                     </h:column>
                     <h:column>
-                        <f:facet name="header">LOGIN</f:facet>
-                            #{usuario.login}
+                        <f:facet name="header">TITULO</f:facet>
+                            #{comentario.titulo}
                     </h:column>
                     <h:column>
-                        <f:facet name="header">EMAIL</f:facet>
-                            #{usuario.email}
+                        <f:facet name="header">DESCRIÇÃO</f:facet>
+                            #{comentario.descricao}
                     </h:column>
                     <h:column>
-                        <f:facet name="header">CEP</f:facet>
-                            #{usuario.cep}
+                        <f:facet name="header">Bairro</f:facet>
+                            #{comentario.bairroIdbairro.nome}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Data e Hora do resgistro</f:facet>
+                        <h:outputText styleClass="h4" value="#{comentario.dataInicio}">
+                            <f:convertDateTime pattern="dd/MM/yyyy" />
+                        </h:outputText>
+                        <br/>
+                        <h:outputText styleClass="h4" value="#{comentario.horaInicio}">
+                            <f:convertDateTime pattern="HH:mm:ss" />
+                        </h:outputText>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Data e Hora da finalização</f:facet>
+                        <h:outputText styleClass="h4" value="#{comentario.dataFim}">
+                            <f:convertDateTime pattern="dd/MM/yyyy" />
+                        </h:outputText>
+                        <br/>
+                        <h:outputText styleClass="h4" value="#{comentario.horaFim}">
+                            <f:convertDateTime pattern="HH:mm:ss" />
+                        </h:outputText>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Tipo</f:facet>
+                        <h:panelGroup layout="block" class="container-fluid" rendered="#{comentario.tipo eq 'curtiu'? true : false}">
+                            <i class='fa fa-thumbs-o-up' style='font-size:72px;color:green;' title='Curtiu'/>
+                        </h:panelGroup>
+
+                        <h:panelGroup layout="block" class="container-fluid" rendered="#{comentario.tipo eq 'naocurtiu'? true : false}">
+                            <i class='fa fa-thumbs-o-down' style='font-size:72px;color:red;' title='Não Curtiu'/>
+                        </h:panelGroup>
                     </h:column>
                     <h:column>
                         <h:form prependId="false">
-                            <h:commandButton value="Excluir" 
-                                             class="btn btn-warning">
-                                <f:ajax listener="#{usuarioMB.ExcluirUser(usuario)}" render="ListaUser ResultadoMensagem"/>
+                            <h:commandButton value="Excluir"
+                                             class="btn btn-warning"
+                                             action="#{comentarioMB.ExcluirComentario(comentario.idcomentario)}">
                             </h:commandButton>
-                            <br/>
-                            <h:commandButton value="Curtiu (#{usuario.ContComentario('curtiu')})"
-                                             class="btn btn-warning">
-                                <f:ajax listener="#{usuarioViewMB.UpdateListaComentario(usuario,'curtiu')}" onevent="handleAjax" render="ListaComentario"/>
-                            </h:commandButton>
-                            <br/>
-                            <h:commandButton value="Não Curtiu (#{usuario.ContComentario('naocurtiu')})" 
-                                             class="btn btn-warning">
-                                <f:ajax listener="#{usuarioViewMB.UpdateListaComentario(usuario,'naocurtiu')}" onevent="handleAjax" render="ListaComentario"/>
+                            <h:commandButton value="Finalizar"
+                                             title="O Comentário será finalizado. Não será excluido mas deixará de ser visto pelos outros usuários"
+                                             class="btn btn-warning"
+                                             rendered="#{UserLogado.tipo eq 'comum' and comentario.horaFim eq null? true : false}"
+                                             action="#{comentarioMB.FinalizarComentario(comentario)}">
                             </h:commandButton>
                         </h:form>
                     </h:column>

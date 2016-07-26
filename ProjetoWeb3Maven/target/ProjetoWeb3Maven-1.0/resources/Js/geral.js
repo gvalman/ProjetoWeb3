@@ -139,11 +139,6 @@ function handleAjax(data) {
                  $(this).attr("longdesc","OK");
                  console.log($(this).attr("src"));
             });
-
-/*
-            for (var i = 0; i < $("#ListaComentario img").size(); i++) {
-                console.log($("#ListaComentario img")[i].attr("alt"));
-            }*/
             break;
     }
 }

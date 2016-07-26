@@ -9,7 +9,7 @@
     <h:body>
         <ui:composition template="/view/template.xhtml">
             <ui:define name="header">
-                <h:outputStylesheet library="Css/" name="listaUser.css" />
+                <h:outputStylesheet library="Css/" name="lista.css" />
                 <h:outputScript library="Js/" name="listaUser.js" />
             </ui:define>
             <ui:define name="content">
@@ -101,6 +101,7 @@
                                 <f:convertDateTime pattern="HH:mm:ss" />
                             </h:outputText>
                         </h:column>
+                        <!--
                         <h:column>
                             <h:form prependId="false">
                                 <h:commandButton value="Excluir" 
@@ -110,6 +111,7 @@
                                 </h:commandButton>
                             </h:form>
                         </h:column>
+                        -->
                     </h:dataTable>
                 </h:panelGroup>
             </ui:define>

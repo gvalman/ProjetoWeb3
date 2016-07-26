@@ -7,19 +7,18 @@ package Controlador;
 
 import Dao.UserJpaController;
 import java.io.Serializable;
-import javax.enterprise.context.RequestScoped;
 import javax.faces.bean.ManagedBean;
 import javax.servlet.http.Part;
 import javax.faces.context.FacesContext;
 import javax.faces.application.FacesMessage;
-import java.util.List;
 import Entidade.User;
 import javax.servlet.http.HttpSession;
 import Dao.exceptions.IllegalOrphanException;
 import Dao.exceptions.NonexistentEntityException;
+import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.RequestScoped;
 
 /**
  *
@@ -36,20 +35,60 @@ public class UsuarioMB implements Serializable {
     private String senha = null;
     private String confirmarSenha = null;
     private int cep = 0;
-    private Part foto;
+    private Part foto = null;
+    private String fotoString = null;
 
     /**
      * Creates a new instance of UsuarioMB
      */
     public UsuarioMB() {
         DaoUser = new UserJpaController();
+        ChamarLogado();
     }
 
     public String cadastrarUsuario() {
-        DaoUser.NovoUsuario(login, email, senha, cep, foto);
-        FacesContext.getCurrentInstance().addMessage("ResultadoMensagem", new FacesMessage(FacesMessage.SEVERITY_INFO, "Usuário Cadastrado com Sucesso", "Projeto"));
-        LimparForm();
+        try {
+            DaoUser.NovoUsuario(login, email, senha, cep, foto);
+            FacesContext.getCurrentInstance().addMessage("ResultadoMensagem", new FacesMessage(FacesMessage.SEVERITY_INFO, "Usuário Cadastrado com Sucesso", "Projeto"));
+            LimparForm();
+        } catch (IOException ex) {
+            FacesContext.getCurrentInstance().addMessage("ResultadoMensagem", new FacesMessage(FacesMessage.SEVERITY_INFO, "Problemas na foto. Tente novamente!", "Projeto"));
+            Logger.getLogger(UsuarioMB.class.getName()).log(Level.SEVERE, null, ex);
+        }
         return null;
+    }
+
+    public void EditarUsuario() {
+
+        HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
+        User usuario = (User) session.getAttribute("UserLogado");
+
+        usuario.setLogin(login);
+        usuario.setEmail(email);
+        usuario.setCep(cep);
+        
+        try {
+            session.setAttribute("UserLogado", DaoUser.EditarUsuario(usuario, senha, foto));
+            FacesContext.getCurrentInstance().addMessage("ResultadoMensagem", new FacesMessage(FacesMessage.SEVERITY_INFO, "Usuário Atualizado com Sucesso", "Projeto"));
+        } catch (NonexistentEntityException ex) {
+            FacesContext.getCurrentInstance().addMessage("ResultadoMensagem", new FacesMessage(FacesMessage.SEVERITY_INFO, "Problemas na atualização. Tente novamente!", "Projeto"));
+            Logger.getLogger(UsuarioMB.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            FacesContext.getCurrentInstance().addMessage("ResultadoMensagem", new FacesMessage(FacesMessage.SEVERITY_INFO, "Problemas na atualização. Tente novamente!", "Projeto"));
+            Logger.getLogger(UsuarioMB.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public void ChamarLogado() {
+        HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
+        User usuario = (User) session.getAttribute("UserLogado");
+
+        if (usuario != null) {
+            login = usuario.getLogin();
+            email = usuario.getEmail();
+            cep = usuario.getCep();
+            fotoString = usuario.ConversorFoto();
+        }
     }
 
     public void LimparForm() {
@@ -166,5 +205,19 @@ public class UsuarioMB implements Serializable {
      */
     public void setConfirmarSenha(String confirmarSenha) {
         this.confirmarSenha = confirmarSenha;
+    }
+
+    /**
+     * @return the fotoString
+     */
+    public String getFotoString() {
+        return fotoString;
+    }
+
+    /**
+     * @param fotoString the fotoString to set
+     */
+    public void setFotoString(String fotoString) {
+        this.fotoString = fotoString;
     }
 }

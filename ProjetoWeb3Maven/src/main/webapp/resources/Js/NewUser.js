@@ -11,8 +11,8 @@ function Carregar() {
 
 /*Necessário para o funcionamento do modal novo usuairo*/
 function OnLoadModalNewUser() {
-    $("#formNewUser\\:ImagemSaida").attr("src", "");
-    $("#formNewUser\\:ImagemSaida").hide();
+    /*$("#formNewUser\\:ImagemSaida").attr("src", "");
+    $("#formNewUser\\:ImagemSaida").hide();*/
     $("#formNewUser\\:ImagemEntrada").change(function () {
         var oFReader = new FileReader();
         oFReader.readAsDataURL(this.files[0]);

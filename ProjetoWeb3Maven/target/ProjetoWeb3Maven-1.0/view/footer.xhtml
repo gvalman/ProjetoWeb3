@@ -9,11 +9,22 @@
         <h:panelGroup id="footer" layout="block" class="navbar-fixed-bottom">
             <h:panelGroup layout="block" class="container-fluid">
                 <h:panelGroup layout="block" class="row">
-                    <h:panelGroup layout="block" class="col-md-6">
-                        <h:outputText styleClass="h1" value="Onde Eu Moro?"/>
+                    <h:panelGroup layout="block" class="col-md-4">
+                        <h:outputText styleClass="h1" value="#{mensagem.Cabecalho}"/>
                     </h:panelGroup>
-                    <h:panelGroup layout="block" class="col-md-6">
+                    <h:panelGroup layout="block" class="col-md-4">
                         <h:outputText id="BairroRodape" styleClass="h2" value=""/>
+                    </h:panelGroup>
+
+                    <h:panelGroup layout="block" class="col-md-4">
+                        <!--Internacionalização-->
+                        <h:form>
+                            <h:commandLink action="#{aplicacaoMB.mudarIdioma()}">
+                                <h:graphicImage height="40px" title="Mudar Idioma para #{mensagem.internacionalizacao}" class="img-rounded" library="Img" name="#{mensagem.bandeira}"/>
+                                <f:setPropertyActionListener value="#{mensagem.linguagem}" target="#{aplicacaoMB.linguagem}" />
+                                <f:setPropertyActionListener value="#{mensagem.pais}" target="#{aplicacaoMB.pais}" />
+                            </h:commandLink>
+                        </h:form>
                     </h:panelGroup>
                 </h:panelGroup>
             </h:panelGroup>

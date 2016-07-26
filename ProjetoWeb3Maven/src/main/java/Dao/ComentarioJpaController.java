@@ -90,6 +90,40 @@ public class ComentarioJpaController implements Serializable {
         }
         return comentarios;
     }
+    
+    public List<Comentario> FindAll() {
+        List<Comentario> comentarios = null;
+        EntityManager em = null;
+        em = getEntityManager();
+        try {
+            comentarios = (List<Comentario>) em.createNamedQuery("Comentario.findAll")
+                    .getResultList();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return comentarios;
+    }
+    
+    public List<Comentario> FindAllByUser(int idUser) {
+        List<Comentario> comentarios = null;
+        EntityManager em = null;
+        em = getEntityManager();
+        try {
+            comentarios = (List<Comentario>) em.createNamedQuery("Comentario.findAllByUser")
+                    .setParameter("iduser", idUser)
+                    .getResultList();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return comentarios;
+    }
+    
+    public void finalizarComentario(Comentario comentario) throws NonexistentEntityException, Exception{
+        Date hoje = new Date();
+        comentario.setDataFim(hoje);
+        comentario.setHoraFim(hoje);
+        edit(comentario);
+    }
 
     public void create(Comentario comentario) {
         EntityManager em = null;

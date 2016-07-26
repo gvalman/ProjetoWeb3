@@ -56,7 +56,7 @@ public class UserJpaController implements Serializable {
         return entityManager;
     }
 
-    public void NovoUsuario(String login, String email, String senha, int cep, Part foto) {
+    public void NovoUsuario(String login, String email, String senha, int cep, Part foto) throws IOException {
         User usuario = new User();
         usuario.setLogin(login);
         usuario.setEmail(email.toLowerCase().trim());/*Passar a string para minusculo e remover espaços vazios*/
@@ -64,11 +64,7 @@ public class UserJpaController implements Serializable {
         usuario.setCep(cep);
         usuario.setTipo("comum");
 
-        try {
-            usuario.setFoto(toByteArray(foto.getInputStream(), (int) foto.getSize()));
-        } catch (IOException ex) {
-            Logger.getLogger(UserJpaController.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        usuario.setFoto(toByteArray(foto.getInputStream(), (int) foto.getSize()));
 
         usuario.setFotoTipo(foto.getContentType());
         create(usuario);
@@ -89,12 +85,23 @@ public class UserJpaController implements Serializable {
 
         return usuario;
     }
-    
-    public List<User> ListaAllUser(int id){
+
+    public User EditarUsuario(User usuario, String senha, Part foto) throws IOException, NonexistentEntityException, Exception {
+
+        usuario.setSenha(Criptografia.criptografar(senha));
+
+        if (foto != null) {
+            usuario.setFoto(toByteArray(foto.getInputStream(), (int) foto.getSize()));
+        }
+        edit(usuario);
+        return usuario;
+    }
+
+    public List<User> ListaAllUser(int id) {
         List<User> usuarios = null;
         EntityManager em = null;
         em = getEntityManager();
-        
+
         try {
             usuarios = (List<User>) em.createNamedQuery("User.findAllExceptAdm")
                     .setParameter("iduser", id)

@@ -15,10 +15,19 @@
         </navigation-case>
     </navigation-rule>
     
+    <!-- Arquivo de Propriedades: Internacionalização -->
     <application>
         <resource-bundle>
-            <base-name>/Mensagens/mensagens</base-name>
+            <base-name>Mensagens.mensagens</base-name>
             <var>mensagem</var>
         </resource-bundle>
+        
+        <locale-config>
+            <default-locale>pt_BR</default-locale>
+            <supported-locale>en_US</supported-locale>
+            <supported-locale>pt_BR</supported-locale>
+        </locale-config>
+        
+        <message-bundle>Mensagens.mensagens</message-bundle>
     </application>
 </faces-config>

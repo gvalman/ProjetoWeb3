@@ -91,7 +91,7 @@
                                         <h:outputLabel value="Senha" for="senha"/>
                                     </h:panelGroup>
                                     <h:panelGroup layout="block" class="col-sm-10">
-                                        <h:inputSecret id='senha' 
+                                        <h:inputSecret id='senha'
                                                        class="form-control" 
                                                        value="#{usuarioMB.senha}" 
                                                        pt:placeholder="Informe uma senha de 4 a 8 caracteres" 
@@ -115,13 +115,14 @@
                                             <h:panelGroup layout="block" class="col-sm-6">
                                                 <h:inputFile id="ImagemEntrada" 
                                                              class="form-control" 
-                                                             value="#{usuarioMB.foto}" 
+                                                             value="#{usuarioMB.foto}"
                                                              pt:accept='image/*'
-                                                             required="true" label="Arquivo"/>
+                                                             required="#{UserLogado eq null ? true : false}" 
+                                                             label="Arquivo"/>
                                             </h:panelGroup>
                                             <h:panelGroup layout="block" class="col-sm-6">
                                                 <h:graphicImage id='ImagemSaida' 
-                                                                value="" 
+                                                                value="#{usuarioMB.fotoString}" 
                                                                 height="150px"/>
                                             </h:panelGroup>
                                         </h:panelGroup>
@@ -133,8 +134,14 @@
 
                                 <h:panelGroup layout="block" class="form-group">
                                     <h:panelGroup layout="block" class="col-sm-offset-2 col-sm-10">
-                                        <h:commandButton value="Cadastrar" class="btn btn-warning"
+                                        <h:commandButton value="Cadastrar"
+                                                         rendered="#{UserLogado eq null ? true : false}"
+                                                         class="btn btn-warning"
                                                          action="#{usuarioMB.cadastrarUsuario()}" />
+                                        <h:commandButton value="Editar"
+                                                         rendered="#{UserLogado eq null ? false : true}"
+                                                         class="btn btn-warning"
+                                                         action="#{usuarioMB.EditarUsuario()}" />
                                     </h:panelGroup>        
                                 </h:panelGroup>
                             </h:form>

@@ -11,9 +11,7 @@ import Dao.exceptions.NonexistentEntityException;
 import Entidade.Bairro;
 import Entidade.Comentario;
 import Entidade.User;
-import javax.enterprise.context.RequestScoped;
 import java.io.Serializable;
-import java.util.ArrayList;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
@@ -22,9 +20,7 @@ import javax.servlet.http.Part;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.event.AjaxBehaviorEvent;
+import javax.faces.bean.RequestScoped;
 
 /**
  *
@@ -78,17 +74,24 @@ public class ComentarioMB implements Serializable {
         return Lista;
     }
 
-    public void ExcluirComentario() {
-        System.out.println("EXCLUINDO COMENTÁRIO");
+    public void FinalizarComentario(Comentario comentario) {
+        try {
+            DaoComentario.finalizarComentario(comentario);
+            FacesContext.getCurrentInstance().addMessage("ResultadoMensagem", new FacesMessage(FacesMessage.SEVERITY_INFO, "Comentário finalizado com SUCESSO", "Projeto"));
+        } catch (Exception ex) {
+            FacesContext.getCurrentInstance().addMessage("ResultadoMensagem", new FacesMessage(FacesMessage.SEVERITY_INFO, "Comentário não pode ser finalizado", "Projeto"));
+            Logger.getLogger(ComentarioMB.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 
-        /*
+    public void ExcluirComentario(int comentarioId) {
         try {
             DaoComentario.destroy(comentarioId);
             FacesContext.getCurrentInstance().addMessage("ResultadoMensagem", new FacesMessage(FacesMessage.SEVERITY_INFO, "Comentário excluido com SUCESSO", "Projeto"));
         } catch (NonexistentEntityException ex) {
             FacesContext.getCurrentInstance().addMessage("ResultadoMensagem", new FacesMessage(FacesMessage.SEVERITY_INFO, "Comentário não pode ser excluido tente novamente", "Projeto"));
             Logger.getLogger(ComentarioMB.class.getName()).log(Level.SEVERE, null, ex);
-        }*/
+        }
     }
 
     /**
