@@ -11,19 +11,22 @@ function ModalImagem() {
     }
 }
 
-function OpenModalImagem(id) {
+function OpenModalImagem(id, loginUser, fotoUser) {
     // Get the modal
     var modal = document.getElementById('ModalImagem');
 
 // Get the image and insert it inside the modal - use its "alt" text as a caption
     var Img = document.getElementById(id);
     var modalImg = document.getElementById("img01");
+    var tituloComentario = document.getElementById("tituloComentario");
+    var ImgUser = document.getElementById("img02");
     var captionText = document.getElementById("caption");
 
     modal.style.display = "block";
     modalImg.src = Img.src;
-    modalImg.alt = Img.alt;
-    captionText.innerHTML = Img.alt;
+    tituloComentario.innerHTML = "Titulo do Comentário:<br/>"+Img.title;
+    ImgUser.src = fotoUser;
+    captionText.innerHTML = "<h1 style='color:white;text-align: left'>Resgistrado por:<br/>" + loginUser + "</h1><br/><p style='color:white;text-align: left;font-size: 20px;'>Descrição do Comentário:<br/>" + Img.alt + "</p>";
 }
 
 function openNavLeft() {
@@ -114,6 +117,16 @@ function ChamarBotao(CodBairro, NomeBairro, tipo) {
     //alert(CodBairro + " " + NomeBairro);
     //console.log(CodBairro + " " + NomeBairro);
     var jsfCommandLink = document.getElementById("ChamarLista");
+    var spanTitulo = document.getElementById("tituloMenuRight");
+    var saida="";
+    
+    if(tipo == 'curtiu'){
+        saida += NomeBairro + "<br/>O que gostou?";       
+    }else{
+        saida += NomeBairro + "<br/>O que não gostou?"; 
+    }
+    
+    spanTitulo.innerHTML = saida;
     $('#CodigoBairroLista').val(CodBairro);
     $('#TipoLista').val(tipo);
     //jsfCommandLink.value = CodBairro;
@@ -135,9 +148,9 @@ function handleAjax(data) {
         case "success":
             // This is invoked right after successful processing of ajax response and update of HTML DOM.
             $("#ListaComentario img").each(function () {
-                 $(this).attr("src",$(this).attr("longdesc"));
-                 $(this).attr("longdesc","OK");
-                 console.log($(this).attr("src"));
+                $(this).attr("src", $(this).attr("longdesc"));
+                $(this).attr("longdesc", "OK");
+                //console.log($(this).attr("src"));
             });
             break;
     }

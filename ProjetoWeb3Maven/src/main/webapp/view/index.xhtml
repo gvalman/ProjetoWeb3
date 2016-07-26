@@ -44,20 +44,29 @@
                 <!--Modal Imagem-->
                 <h:panelGroup id="ModalImagem" layout="block" class="modal">
                     <h:outputText class="close-imagem" value="x"/>
-                    <h:graphicImage id='img01' class="modal-content-imagem" value=""/>
-                    <h:panelGroup id="caption" layout="block">
+
+                    <h:panelGroup layout="block" class="row">
+                        <h:panelGroup layout="block" class="col-md-8">
+                            <h:outputText id="tituloComentario" styleClass="h1" style="color:white;position: relative;left:50%;" value=""/>
+                            <h:graphicImage id='img01' class="modal-content-imagem" value=""/>
+                        </h:panelGroup>
+                        <h:panelGroup layout="block" class="col-md-4">
+                            <h:graphicImage id='img02' height="150px" class="img-rounded" value=""/>
+                            <h:panelGroup id="caption" layout="block">
+                            </h:panelGroup>
+                        </h:panelGroup>
                     </h:panelGroup>
                 </h:panelGroup>
 
                 <!--Side Menu Right-->
                 <h:panelGroup id="MenuSideRight" layout="block" class="sidenav">
                     <h:outputLink value="javascript:void(0)" class="closebtn"  onclick="closeNavRight()">x</h:outputLink>
-                    <h:outputText class="icon-bar" value="O que gostou?"/>
+                    <h:outputText id="tituloMenuRight" class="icon-bar" value=""/>
 
                     <h:panelGroup id="ListaComentario" layout="block" class="container-fluid">
                         <ui:repeat var="comentario" value="#{comentarioMB.ListaComentario()}" rendered="#{comentarioMB.showLista}">
                             <br/>
-                            <h:graphicImage rendered="#{not empty comentario}" class="img-responsive" id="imagem" onclick="OpenModalImagem(id)" value="#{comentario.fotoBase64}" longdesc="#{comentario.ConversorFoto()}" alt="#{comentario.titulo}" name="#{comentario.titulo}"/>    
+                            <h:graphicImage rendered="#{not empty comentario}" class="img-responsive" id="imagem" onclick="OpenModalImagem(id, '#{comentario.userIduser.login}', '#{comentario.userIduser.ConversorFoto()}')" value="" longdesc="#{comentario.ConversorFoto()}" title="#{comentario.titulo}" alt="#{comentario.descricao}" />
                         </ui:repeat>
                     </h:panelGroup>
                     <br/>
@@ -174,7 +183,15 @@
                                                 <h:outputLabel value="Descrição" for="descricao"/>
                                             </h:panelGroup>
                                             <h:panelGroup layout="block" class="col-sm-10">
-                                                <h:inputTextarea id="descricao" pt:placeholder="Descreva o comentário" required="true" value="#{comentarioMB.descricao}" cols="20" rows="5"/>
+                                                <h:inputTextarea id="descricao" 
+                                                                 pt:placeholder="Descreva o comentário" 
+                                                                 required="true" 
+                                                                 value="#{comentarioMB.descricao}" 
+                                                                 cols="100" 
+                                                                 rows="2"
+                                                                 validatorMessage="Comentário deve ter 200 caracteres">
+                                                    <f:validateLength maximum="200"/>
+                                                </h:inputTextarea>
                                             </h:panelGroup>
                                             <h:panelGroup layout="block" class="col-sm-offset-2 col-sm-10">
 

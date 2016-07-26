@@ -8,6 +8,7 @@ package Controlador;
 import Dao.UserJpaController;
 import Entidade.User;
 import java.io.Serializable;
+import java.util.ResourceBundle;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
@@ -26,7 +27,7 @@ public class UsuarioSessaoMB implements Serializable {
 
     private String login = null;
     private String senha = null;
-
+    
     public UsuarioSessaoMB() {
         DaoUser = new UserJpaController();
     }
@@ -35,13 +36,17 @@ public class UsuarioSessaoMB implements Serializable {
         String SaidaMsn;
 
         User usuario = DaoUser.ChecarUser(getLogin(), getSenha());
+        
+        FacesContext context = FacesContext.getCurrentInstance();
+        /*Chamando o message-bundle pelo bean*/
+        ResourceBundle bundle = context.getApplication().getResourceBundle(context,"mensagem");
 
         if (usuario == null) {
-            SaidaMsn = "Usuário não encontrado. Tente novamente!";
+            SaidaMsn = bundle.getString("tentarUser");
         } else {
             HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
             session.setAttribute("UserLogado", usuario);
-            SaidaMsn = "Bem Vindo," + usuario.getLogin();
+            SaidaMsn = bundle.getString("bemvindo") + usuario.getLogin();
         }
 
         FacesContext.getCurrentInstance().addMessage("ResultadoMensagem", new FacesMessage(FacesMessage.SEVERITY_INFO, SaidaMsn, "Projeto"));
@@ -51,9 +56,14 @@ public class UsuarioSessaoMB implements Serializable {
     public String LogOutUser() {
         HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
         session.invalidate();
+        
+        FacesContext context = FacesContext.getCurrentInstance();
+        ResourceBundle bundle = context.getApplication().getResourceBundle(context,"mensagem");
+        FacesContext.getCurrentInstance().addMessage("ResultadoMensagem", new FacesMessage(FacesMessage.SEVERITY_INFO, bundle.getString("sessaoOut"), "Projeto"));
+        
         return "index";
     }
-    
+
     /**
      * @return the login
      */
